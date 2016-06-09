@@ -1,9 +1,15 @@
 package com.github.error418.opennms.client;
 
 import java.io.StringWriter;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -36,8 +42,18 @@ public class OpenNmsEventBuilder {
 		return writer.getBuffer().toString();
 	}
 
-	public void send(String targetUrl) {
+	public void send(String targetUrl, String username, String password) {
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(targetUrl).path("/");
 
+		String authHeaderName = "Authorization";
+        String authHeaderValue = "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes() );
+ 
+		
+		target
+			.request(MediaType.APPLICATION_JSON_TYPE)
+			.header(authHeaderName, authHeaderValue)
+			.post(Entity.entity(this.model, MediaType.APPLICATION_XML));
 	}
 
 	private OpenNmsEventBuilder() {
