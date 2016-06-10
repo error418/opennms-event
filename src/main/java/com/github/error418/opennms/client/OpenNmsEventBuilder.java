@@ -90,7 +90,42 @@ public class OpenNmsEventBuilder {
 		this.event.setTime(time);
 		return this;
 	}
-
+	
+	public OpenNmsEventBuilder severity(String severity) {
+		this.event.setSeverity(severity);
+		return this;
+	}
+	
+	public OpenNmsEventBuilder description(String description) {
+		this.event.setDescription(description);
+		return this;
+	}
+	
+	public OpenNmsEventBuilder service(String service) {
+		this.event.setService(service);
+		return this;
+	}
+	
+	public OpenNmsEventBuilder ifIndex(Integer ifIndex) {
+		this.event.setIfIndex(ifIndex);
+		return this;
+	}
+	
+	public OpenNmsEventBuilder interfaceName(String interfaceName) {
+		this.event.setInterfaceName(interfaceName);
+		return this;
+	}
+	
+	public OpenNmsEventBuilder operationInstruction(String operationInstruction) {
+		this.event.setOperationInstruction(operationInstruction);
+		return this;
+	}
+	
+	public OpenNmsEventBuilder logMessage(String logMessage) {
+		this.event.setLogMessage(logMessage);
+		return this;
+	}
+	
 	public OpenNmsEventBuilder parameter(String name, String value) {
 		if (this.event.getParameterList() == null) {
 			this.event.setParameters(new ParameterList());
