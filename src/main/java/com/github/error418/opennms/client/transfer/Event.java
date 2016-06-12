@@ -29,6 +29,27 @@ public class Event {
 	@XmlElement(name = "parms")
 	private ParameterList parameterList;
 
+	@XmlElement(name = "interface")
+	private String interfaceName;
+
+	@XmlElement(name = "service")
+	private String service;
+
+	@XmlElement(name = "ifIndex")
+	private Integer ifIndex;
+
+	@XmlElement(name = "descr")
+	private String description;
+
+	@XmlElement(name = "logmsg")
+	private String logMessage;
+
+	@XmlElement(name = "severity")
+	private String severity;
+
+	@XmlElement(name = "operinstruct")
+	private String operationInstruction;
+
 	public Event() {
 	}
 
@@ -78,6 +99,66 @@ public class Event {
 
 	public void setParameters(ParameterList parameters) {
 		this.parameterList = parameters;
+	}
+
+	public String getService() {
+		return service;
+	}
+
+	public void setService(String service) {
+		this.service = service;
+	}
+
+	public Integer getIfIndex() {
+		return ifIndex;
+	}
+
+	public void setIfIndex(Integer ifIndex) {
+		this.ifIndex = ifIndex;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getLogMessage() {
+		return logMessage;
+	}
+
+	public void setLogMessage(String logMessage) {
+		this.logMessage = logMessage;
+	}
+
+	public String getSeverity() {
+		return severity;
+	}
+
+	public void setSeverity(String severity) {
+		this.severity = severity;
+	}
+
+	public String getOperationInstruction() {
+		return operationInstruction;
+	}
+
+	public void setOperationInstruction(String operationInstruction) {
+		this.operationInstruction = operationInstruction;
+	}
+
+	public void setParameterList(ParameterList parameterList) {
+		this.parameterList = parameterList;
+	}
+
+	public String getInterfaceName() {
+		return interfaceName;
+	}
+
+	public void setInterfaceName(String interfaceName) {
+		this.interfaceName = interfaceName;
 	}
 
 }

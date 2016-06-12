@@ -14,9 +14,11 @@ public class OpenNmsEventBuilderTest {
 	public void testBuild() throws Exception {
 		OpenNmsEventBuilder builder = OpenNmsEventBuilder.create();
 		
-		builder.host("host")
-		.nodeId("nodeid")
-		.parameter("test", "teeeest")
+		builder.host("examplehost.example")
+		.nodeId("Node ID")
+		.parameter("parameterA", "1")
+		.parameter("parameterB", "2")
+		.parameter("parameterC", "3")
 		.source("source")
 		.time(new Date(1465499072221L)) // 1465499072221 -- Thu Jun 09 21:04:32 CEST 2016
 		.uei("uei");
