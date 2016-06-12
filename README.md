@@ -19,3 +19,22 @@ builder.host("examplehost.example")
 		.time(new Date(1465499072221L)) // 1465499072221 -- Thu Jun 09 21:04:32 CEST 2016
 		.uei("uei");
 ```
+
+## Supported Properties
+
+Following Event properties are supported:
+
+* uei
+* source
+* nodeid
+* time
+* host
+* interface
+* service
+* ifIndex
+* descr
+* logmsg
+* severity
+* operinstruct
+* parms
+
