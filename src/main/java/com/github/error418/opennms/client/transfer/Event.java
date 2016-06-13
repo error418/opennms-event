@@ -42,10 +42,10 @@ public class Event {
 	private String description;
 
 	@XmlElement(name = "logmsg")
-	private String logMessage;
+	private LogMessage logMessage;
 
 	@XmlElement(name = "severity")
-	private String severity;
+	private Severity severity;
 
 	@XmlElement(name = "operinstruct")
 	private String operationInstruction;
@@ -125,19 +125,19 @@ public class Event {
 		this.description = description;
 	}
 
-	public String getLogMessage() {
+	public LogMessage getLogMessage() {
 		return logMessage;
 	}
 
-	public void setLogMessage(String logMessage) {
+	public void setLogMessage(LogMessage logMessage) {
 		this.logMessage = logMessage;
 	}
 
-	public String getSeverity() {
+	public Severity getSeverity() {
 		return severity;
 	}
 
-	public void setSeverity(String severity) {
+	public void setSeverity(Severity severity) {
 		this.severity = severity;
 	}
 
