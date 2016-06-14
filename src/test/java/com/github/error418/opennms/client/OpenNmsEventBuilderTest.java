@@ -1,7 +1,8 @@
 package com.github.error418.opennms.client;
 
 import java.nio.charset.Charset;
-import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -14,13 +15,17 @@ public class OpenNmsEventBuilderTest {
 	public void testBuild() throws Exception {
 		OpenNmsEventBuilder builder = OpenNmsEventBuilder.create();
 		
+		GregorianCalendar cal = new GregorianCalendar(TimeZone.getTimeZone("CEST"));
+		
+		cal.setTimeInMillis(1465499072221L); //  -- Thu Jun 09 21:04:32 CEST 2016
+		
 		builder.host("examplehost.example")
 				.nodeId("Node ID")
 				.parameter("parameterA", "1")
 				.parameter("parameterB", "2")
 				.parameter("parameterC", "3")
 				.source("source")
-				.time(new Date(1465499072221L)) // 1465499072221 -- Thu Jun 09 21:04:32 CEST 2016
+				.time(cal.getTime()) 
 				.uei("uei");
 		
 		String result = builder.getXmlString();
