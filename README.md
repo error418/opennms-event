@@ -9,7 +9,7 @@ JAX-B to generate the XML message.
 A Builder class instance can be used to create a OpenNmsEvent object instance and send the data to an
 OpenNMS Server in the network.
 
-´´´java
+```java
 builder.host("examplehost.example")
 		.nodeId("Node ID")
 		.parameter("parameterA", "1")
@@ -18,4 +18,23 @@ builder.host("examplehost.example")
 		.source("source")
 		.time(new Date(1465499072221L)) // 1465499072221 -- Thu Jun 09 21:04:32 CEST 2016
 		.uei("uei");
-´´´
+```
+
+## Supported Properties
+
+Following Event properties are supported:
+
+* uei
+* source
+* nodeid
+* time
+* host
+* interface
+* service
+* ifIndex
+* descr
+* logmsg
+* severity
+* operinstruct
+* parms
+
