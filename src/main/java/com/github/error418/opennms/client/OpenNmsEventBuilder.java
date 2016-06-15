@@ -1,10 +1,12 @@
 package com.github.error418.opennms.client;
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.List;
 
@@ -107,14 +109,19 @@ public class OpenNmsEventBuilder {
 	 * @throws UnknownHostException on network/addressing errors
 	 */
 	public void send(String targetAddress, int port) throws OpenNmsEventException, IOException, UnknownHostException {
+		if (this.event.getUei() == null) {
+			throw new OpenNmsEventException("An event needs to have an UEI specified.");
+		}
+		
 		Socket socket = null;
 
 		try {
 			String data = getXmlString();
 			logger.debug("open socket to {}:{}", targetAddress, port);
 			socket = new Socket(targetAddress, port);
-			PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-			out.println(data);
+			OutputStreamWriter out = new OutputStreamWriter(socket.getOutputStream(), "UTF-8");
+			out.write(data, 0, data.length());
+			out.flush();
 		} catch (UnknownHostException e) {
 			logger.error("Could not create socket. The host is unknown.", e);
 			throw e;
@@ -176,6 +183,7 @@ public class OpenNmsEventBuilder {
 	 * @return current Builder instance
 	 */
 	public OpenNmsEventBuilder nodeId(String nodeId) {
+		// TODO: use integer
 		this.event.setNodeId(nodeId);
 		return this;
 	}
@@ -187,7 +195,7 @@ public class OpenNmsEventBuilder {
 	 * @return current Builder instance
 	 */
 	public OpenNmsEventBuilder source(String source) {
-		this.event.setNodeId(source);
+		this.event.setSource(source);
 		return this;
 	}
 
@@ -276,6 +284,7 @@ public class OpenNmsEventBuilder {
 	 * @return current Builder instance
 	 */
 	public OpenNmsEventBuilder interfaceName(String interfaceName) {
+		// TODO: validate interface name to match IP Address
 		this.event.setInterfaceName(interfaceName);
 		return this;
 	}
