@@ -1,11 +1,13 @@
 package com.github.error418.opennms.client;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.OutputStreamWriter;
 import java.io.StringWriter;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -16,12 +18,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.error418.opennms.client.transfer.Event;
-import com.github.error418.opennms.client.transfer.EventList;
 import com.github.error418.opennms.client.transfer.Log;
 import com.github.error418.opennms.client.transfer.LogMessage;
 import com.github.error418.opennms.client.transfer.LogMessageDestination;
 import com.github.error418.opennms.client.transfer.Parameter;
-import com.github.error418.opennms.client.transfer.ParameterList;
 import com.github.error418.opennms.client.transfer.ParameterValue;
 import com.github.error418.opennms.client.transfer.Severity;
 
@@ -44,8 +44,8 @@ import com.github.error418.opennms.client.transfer.Severity;
 public class OpenNmsEventBuilder {
 
 	private static final Logger logger = LoggerFactory.getLogger(OpenNmsEventBuilder.class);
-	private static final Class<?>[] BOUND_CLASSES = new Class<?>[] { Log.class, EventList.class, Event.class,
-			Parameter.class, ParameterList.class, ParameterValue.class };
+	private static final Class<?>[] BOUND_CLASSES = new Class<?>[] { Log.class, Event.class,
+			Parameter.class, ParameterValue.class };
 			
 	/**
 	 * The OpenNMS standard port: {@value #ONMS_STANDARD_PORT}
@@ -82,42 +82,45 @@ public class OpenNmsEventBuilder {
 
 		return writer.getBuffer().toString();
 	}
-
+	
+	
 	/**
 	 * Sends the current state of the Event to the given OpenNMS Server using the default port {@value #ONMS_STANDARD_PORT}.
 	 * 
-	 * @param targetAddress address of the OpenNMS server
+	 * @param onmsAddress address of the OpenNMS server
 	 * 
 	 * @throws OpenNmsEventException on message building exceptions
 	 * @throws IOException on socket related exceptions
 	 * @throws UnknownHostException on network/addressing errors
 	 */
-	public void send(String targetAddress) throws OpenNmsEventException, IOException, UnknownHostException {
-		this.send(targetAddress, ONMS_STANDARD_PORT);
+	public void send(InetAddress onmsAddress) throws OpenNmsEventException, IOException {
+		this.send(onmsAddress, ONMS_STANDARD_PORT);
 	}
 
 	/**
 	 * Sends the current state of the Event to the given OpenNMS Server using the given port.
 	 * 
-	 * @param targetAddress address of the OpenNMS server
+	 * @param onmsAddress address of the OpenNMS server
 	 * @param port port of the OpenNMS server event handling interface
 	 * 
 	 * @throws OpenNmsEventException on message building exceptions
 	 * @throws IOException on socket related exceptions
 	 * @throws UnknownHostException on network/addressing errors
 	 */
-	public void send(String targetAddress, int port) throws OpenNmsEventException, IOException, UnknownHostException {
+	public void send(InetAddress onmsAddress, int port) throws OpenNmsEventException, IOException {
+		if (this.event.getUei() == null) {
+			throw new OpenNmsEventException("An event needs to have an UEI specified.");
+		}
+		
 		Socket socket = null;
 
 		try {
 			String data = getXmlString();
-			logger.debug("open socket to {}:{}", targetAddress, port);
-			socket = new Socket(targetAddress, port);
-			PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-			out.println(data);
-		} catch (UnknownHostException e) {
-			logger.error("Could not create socket. The host is unknown.", e);
-			throw e;
+			logger.debug("open socket to {}:{}", onmsAddress.getHostAddress(), port);
+			socket = new Socket(onmsAddress, port);
+			OutputStreamWriter out = new OutputStreamWriter(socket.getOutputStream(), "UTF-8");
+			out.write(data, 0, data.length());
+			out.flush();
 		} catch (IOException e) {
 			logger.error("Could not create socket", e);
 			throw e;
@@ -140,13 +143,18 @@ public class OpenNmsEventBuilder {
 	 * Constructs a new {@link OpenNmsEventBuilder} instance.
 	 */
 	public OpenNmsEventBuilder() {
-		this.model = new Log();
 		this.event = new Event();
-
-		EventList eventList = new EventList();
-		eventList.getEvents().add(event);
-
-		this.model.setEvents(eventList);
+		this.model = new Log(event);
+	}
+	
+	/**
+	 * This Constructor is used for testing purposes.
+	 * 
+	 * @param model
+	 */
+	OpenNmsEventBuilder(Event event) {
+		this.model = new Log(event);
+		this.event = event;
 	}
 
 	/**
@@ -175,7 +183,7 @@ public class OpenNmsEventBuilder {
 	 * @param nodeId The NodeId of the device that caused the event
 	 * @return current Builder instance
 	 */
-	public OpenNmsEventBuilder nodeId(String nodeId) {
+	public OpenNmsEventBuilder nodeId(int nodeId) {
 		this.event.setNodeId(nodeId);
 		return this;
 	}
@@ -187,7 +195,7 @@ public class OpenNmsEventBuilder {
 	 * @return current Builder instance
 	 */
 	public OpenNmsEventBuilder source(String source) {
-		this.event.setNodeId(source);
+		this.event.setSource(source);
 		return this;
 	}
 
@@ -268,15 +276,34 @@ public class OpenNmsEventBuilder {
 	/**
 	 * Sets the interface associated with the event.
 	 * 
+	 * Consider using {@link #interfaceAddress(InetAddress)} instead of this method.
+	 * 
+	 * @see #interfaceAddress(InetAddress)
+	 * 
+	 * @param interfaceAddress interface associated with the event.
+	 * @return current Builder instance
+	 * 
+	 * @throws UnknownHostException if the method was not able to resolve the supplied host name
+	 */
+	public OpenNmsEventBuilder interfaceAddress(String interfaceAddress) throws UnknownHostException {
+		InetAddress address = InetAddress.getByName(interfaceAddress);
+		
+		this.event.setInterfaceAddress(address);
+		return this;
+	}
+	
+	/**
+	 * Sets the interface associated with the event.
+	 * 
 	 * <p>
 	 * Maps to the event attribute <pre>interface</pre>
 	 * </p>
 	 * 
-	 * @param interfaceName interface associated with the event.
+	 * @param interfaceAddress interface associated with the event.
 	 * @return current Builder instance
 	 */
-	public OpenNmsEventBuilder interfaceName(String interfaceName) {
-		this.event.setInterfaceName(interfaceName);
+	public OpenNmsEventBuilder interfaceAddress(InetAddress interfaceAddress) {
+		this.event.setInterfaceAddress(interfaceAddress);
 		return this;
 	}
 
@@ -332,10 +359,10 @@ public class OpenNmsEventBuilder {
 	 */
 	public OpenNmsEventBuilder parameter(String name, String value) {
 		if (this.event.getParameterList() == null) {
-			this.event.setParameters(new ParameterList());
+			this.event.setParameterList(new LinkedList<Parameter>());
 		}
 
-		List<Parameter> list = this.event.getParameterList().getParameters();
+		List<Parameter> list = this.event.getParameterList();
 
 		Parameter parameter = new Parameter();
 		parameter.setParameterName(name);
