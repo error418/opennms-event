@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+@Deprecated
 @XmlRootElement(name = "parms")
 @XmlAccessorType(XmlAccessType.NONE)
 public class ParameterList {

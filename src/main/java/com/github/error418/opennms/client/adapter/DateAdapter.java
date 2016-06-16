@@ -26,6 +26,7 @@ public class DateAdapter extends XmlAdapter<String, Date> {
 
 	@Override
 	public Date unmarshal(String string) throws Exception {
+		// Only one way is needed in this case
 		return null;
 	}
 }

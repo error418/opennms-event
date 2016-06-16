@@ -1,14 +1,18 @@
 package com.github.error418.opennms.client.transfer;
 
+import java.net.InetAddress;
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.github.error418.opennms.client.adapter.DateAdapter;
+import com.github.error418.opennms.client.adapter.InetAddressHostAdapter;
 
 @XmlRootElement(name = "event")
 @XmlAccessorType(XmlAccessType.NONE)
@@ -21,7 +25,7 @@ public class Event {
 	private String source;
 
 	@XmlElement(name = "nodeid")
-	private String nodeId;
+	private int nodeId;
 
 	@XmlElement(name = "time")
 	@XmlJavaTypeAdapter(DateAdapter.class)
@@ -31,10 +35,12 @@ public class Event {
 	private String host;
 
 	@XmlElement(name = "parms")
-	private ParameterList parameterList;
+	@XmlElementWrapper(name = "parms")
+	private List<Parameter> parameterList;
 
 	@XmlElement(name = "interface")
-	private String interfaceName;
+	@XmlJavaTypeAdapter(InetAddressHostAdapter.class)
+	private InetAddress interfaceAddress;
 
 	@XmlElement(name = "service")
 	private String service;
@@ -73,11 +79,11 @@ public class Event {
 		this.source = source;
 	}
 
-	public String getNodeId() {
+	public int getNodeId() {
 		return nodeId;
 	}
 
-	public void setNodeId(String nodeId) {
+	public void setNodeId(int nodeId) {
 		this.nodeId = nodeId;
 	}
 
@@ -95,14 +101,6 @@ public class Event {
 
 	public void setHost(String host) {
 		this.host = host;
-	}
-
-	public ParameterList getParameterList() {
-		return parameterList;
-	}
-
-	public void setParameters(ParameterList parameters) {
-		this.parameterList = parameters;
 	}
 
 	public String getService() {
@@ -153,16 +151,20 @@ public class Event {
 		this.operationInstruction = operationInstruction;
 	}
 
-	public void setParameterList(ParameterList parameterList) {
+	public InetAddress getInterfaceAddress() {
+		return interfaceAddress;
+	}
+
+	public void setInterfaceAddress(InetAddress interfaceName) {
+		this.interfaceAddress = interfaceName;
+	}
+
+	public List<Parameter> getParameterList() {
+		return parameterList;
+	}
+
+	public void setParameterList(List<Parameter> parameterList) {
 		this.parameterList = parameterList;
-	}
-
-	public String getInterfaceName() {
-		return interfaceName;
-	}
-
-	public void setInterfaceName(String interfaceName) {
-		this.interfaceName = interfaceName;
 	}
 
 }
