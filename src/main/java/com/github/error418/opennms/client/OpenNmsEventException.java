@@ -7,6 +7,10 @@ public class OpenNmsEventException extends Exception {
 		
 	}
 	
+	public OpenNmsEventException(String message) {
+		super(message);
+	}
+	
 	public OpenNmsEventException(String message, Throwable cause) {
 		super(message, cause);
 	}
