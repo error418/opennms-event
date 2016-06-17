@@ -1,4 +1,4 @@
-# opennms-event
+# OpenNMS Event Client for Java
 
 [![Build Status](https://travis-ci.org/error418/opennms-event.svg?branch=master)](https://travis-ci.org/error418/opennms-event)
 
