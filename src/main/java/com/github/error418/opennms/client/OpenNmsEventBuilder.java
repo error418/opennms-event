@@ -17,6 +17,7 @@ import javax.xml.bind.Marshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.error418.opennms.client.exception.OpenNmsEventException;
 import com.github.error418.opennms.client.transfer.Event;
 import com.github.error418.opennms.client.transfer.Log;
 import com.github.error418.opennms.client.transfer.LogMessage;
@@ -28,7 +29,7 @@ import com.github.error418.opennms.client.transfer.Severity;
 /**
  * The Event Builder assists you in building and sending an OpenNMS Event to a OpenNMS server.
  * <p>
- * 	Events will be sent by calling the eventd process of OpenNMS by using a Socket connection.
+ * 	Events will be sent by calling the eventd daemon of OpenNMS by using a Socket connection.
  * </p>
  * 
  * <p>
@@ -372,4 +373,21 @@ public class OpenNmsEventBuilder {
 
 		return this;
 	}
+	
+	/**
+	 * Adds a numeric parameter.
+	 * <p>
+	 * Note: This parameter method will use type="string" encoding="text".
+	 * </p>
+	 * 
+	 * @see #parameter(String, String)
+	 * 
+	 * @param name name of the parameter to add
+	 * @param value value of the parameter to add
+	 * @return current Builder instance
+	 */
+	public OpenNmsEventBuilder parameter(String name, Number value) {
+		return parameter(name, String.valueOf(value));
+	}
+	
 }
