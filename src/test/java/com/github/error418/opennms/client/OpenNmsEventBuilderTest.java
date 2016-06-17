@@ -119,8 +119,6 @@ public class OpenNmsEventBuilderTest {
 				.parameter(parameterName2, parameterValue2)
 				.getXmlString();
 
-		System.out.println(xml);
-
 		Assert.assertNotNull(xml);
 		Assert.assertThat(xml.length(), Matchers.greaterThan(0));
 		Assert.assertThat(xml, Matchers.startsWith("<?xml"));

@@ -35,13 +35,15 @@ import com.github.error418.opennms.client.transfer.Severity;
  * </p>
  * 
  * <p>
- * <b>OpenNMS Documentation</b> <blockquote> The eventd process listens on port
+ * <b>OpenNMS Documentation</b>
+ * </p>
+ * <blockquote> The eventd process listens on port
  * 5817, so other processes, even those external to OpenNMS, can send events to
- * the system. The <security> tag is there so that these events cannot override
+ * the system. The &lt;security&gt; tag is there so that these events cannot override
  * the actions defined in the eventconf.xml file. This way, no one with access
  * to the OpenNMS machine could send in an "autoaction" to open, say, a root
  * window on their machine. </blockquote>
- * </p>
+ * 
  */
 public class OpenNmsEventBuilder {
 
@@ -73,7 +75,7 @@ public class OpenNmsEventBuilder {
 	 * Builds the XML of the current instance.
 	 * 
 	 * @return XML String representing the state of the current instance.
-	 * @throws JAXBException
+	 * @throws JAXBException if jax-b fails to marshal the message
 	 */
 	public String getXmlString() throws JAXBException {
 		JAXBContext jc = JAXBContext.newInstance(BOUND_CLASSES);
@@ -172,14 +174,15 @@ public class OpenNmsEventBuilder {
 	/**
 	 * Sets the OpenNMS Unique Event Identifier.
 	 * <p>
-	 * <b>OpenNMS Documentation</b> <blockquote> The
+	 * <b>OpenNMS Documentation</b>
+	 * </p>
+	 * <blockquote> The
 	 * "Universal Event Identifier" is simply a label to uniquely identify the
 	 * event. The original intent was that this would be some sort of XML
 	 * namespace, hence the "http://", but it really is just a label. In version
 	 * 1.1 and beyond, the "http://" has been removed. Note: for internal
 	 * OpenNMS events, the UEI is generated directly by the code and cannot be
 	 * changed without modifying the source. </blockquote>
-	 * </p>
 	 * 
 	 * @param uei
 	 *            OpenNMS Unique Event Identifier
@@ -283,7 +286,7 @@ public class OpenNmsEventBuilder {
 	/**
 	 * Sets the interface index associated with the event.
 	 * 
-	 * @param ifIndex
+	 * @param ifIndex the interface index
 	 * @return current Builder instance
 	 */
 	public OpenNmsEventBuilder ifIndex(Integer ifIndex) {
@@ -318,11 +321,11 @@ public class OpenNmsEventBuilder {
 	 * 
 	 * <p>
 	 * Maps to the event attribute
-	 * 
+	 * </p>
 	 * <pre>
 	 * interface
 	 * </pre>
-	 * </p>
+	 * 
 	 * 
 	 * @param interfaceAddress
 	 *            interface associated with the event.
@@ -375,12 +378,14 @@ public class OpenNmsEventBuilder {
 	 * Adds a parameter.
 	 * 
 	 * <p>
-	 * <b>OpenNMS Documentation</b> <blockquote> Some events, especially SNMP
+	 * <b>OpenNMS Documentation</b>
+	 * </p>
+	 * 
+	 * <blockquote> Some events, especially SNMP
 	 * traps, have additional information sent with them called
 	 * "variable bindings" or "varbinds" for short. They can be accessed using
 	 * the parm replacement token. Each parameter consists of a name and a
 	 * value. </blockquote>
-	 * </p>
 	 * 
 	 * @param name
 	 *            parameter name to add
