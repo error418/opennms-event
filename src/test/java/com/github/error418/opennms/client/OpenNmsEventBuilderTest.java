@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import com.github.error418.opennms.client.adapter.DateAdapter;
+import com.github.error418.opennms.client.exception.OpenNmsEventException;
 import com.github.error418.opennms.client.transfer.Event;
 import com.github.error418.opennms.client.transfer.LogMessage;
 import com.github.error418.opennms.client.transfer.LogMessageDestination;
@@ -99,6 +100,11 @@ public class OpenNmsEventBuilderTest {
 		final int nodeId = 1337;
 		final String operInstruct = "OPERINSTRUCT";
 		
+		final String parameterName1 = "testNumber";
+		final int parameterValue1 = 1337;
+		final String parameterName2 = "anotherTestNumber";
+		final double parameterValue2 = 23.0;
+		
 		DateAdapter dateAdapter = new DateAdapter();
 		
 		String xml = OpenNmsEventBuilder.create()
@@ -113,7 +119,11 @@ public class OpenNmsEventBuilderTest {
 			.uei(uei)
 			.nodeId(nodeId)
 			.operationInstruction(operInstruct)
+			.parameter(parameterName1, parameterValue1)
+			.parameter(parameterName2, parameterValue2)
 			.getXmlString();
+		
+		System.out.println(xml);
 		
 		Assert.assertNotNull(xml);
 		Assert.assertThat(xml.length(), Matchers.greaterThan(0));
@@ -129,6 +139,12 @@ public class OpenNmsEventBuilderTest {
 		Assert.assertThat(xml, Matchers.containsString(uei));
 		Assert.assertThat(xml, Matchers.containsString(String.valueOf(nodeId)));
 		Assert.assertThat(xml, Matchers.containsString(operInstruct));
+		
+		Assert.assertThat(xml, Matchers.containsString(parameterName1));
+		Assert.assertThat(xml, Matchers.containsString(parameterName2));
+		
+		Assert.assertThat(xml, Matchers.containsString(String.valueOf(parameterValue1)));
+		Assert.assertThat(xml, Matchers.containsString(String.valueOf(parameterValue2)));
 	}
 	
 	@Test(expected = UnknownHostException.class)
