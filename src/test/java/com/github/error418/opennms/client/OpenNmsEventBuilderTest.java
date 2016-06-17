@@ -17,78 +17,74 @@ import com.github.error418.opennms.client.transfer.LogMessage;
 import com.github.error418.opennms.client.transfer.LogMessageDestination;
 import com.github.error418.opennms.client.transfer.Severity;
 
-
 public class OpenNmsEventBuilderTest {
 
 	Event event;
-	
-  @Before
+
+	@Before
 	public void buildSpy() {
 		event = Mockito.spy(new Event());
 	}
-	
+
 	@Test
 	public void testBuilderMappings() throws Exception {
 		OpenNmsEventBuilder builder = new OpenNmsEventBuilder(event);
-		
+
 		builder.host("host");
 		Mockito.verify(event, Mockito.times(1)).setHost(Mockito.eq("host"));
-		
+
 		builder.source("source");
 		Mockito.verify(event, Mockito.times(1)).setSource(Mockito.eq("source"));
-		
+
 		Date now = new Date();
 		builder.time(now);
 		Mockito.verify(event, Mockito.times(1)).setTime(Mockito.eq(now));
-		
+
 		builder.service("service");
 		Mockito.verify(event, Mockito.times(1)).setService(Mockito.eq("service"));
 
 		builder.interfaceAddress("127.0.0.1");
 		Mockito.verify(event, Mockito.times(1)).setInterfaceAddress(Mockito.any(InetAddress.class));
 		Assert.assertEquals("127.0.0.1", event.getInterfaceAddress().getHostAddress());
-		
+
 		builder.description("description");
 		Mockito.verify(event, Mockito.times(1)).setDescription(Mockito.eq("description"));
-		
+
 		builder.logMessage("logmsg");
 		Mockito.verify(event, Mockito.times(1)).setLogMessage(Mockito.any(LogMessage.class));
 		Assert.assertEquals("logmsg", event.getLogMessage().getValue());
-		
+
 		builder.logMessage("logmsg", LogMessageDestination.DISCARD_TRAPS);
 		Assert.assertEquals(LogMessageDestination.DISCARD_TRAPS, event.getLogMessage().getDestination());
-		
+
 		builder.severity(Severity.INDETERMINATE);
 		Mockito.verify(event, Mockito.times(1)).setSeverity(Mockito.eq(Severity.INDETERMINATE));
-		
+
 		builder.uei("uei");
 		Mockito.verify(event, Mockito.times(1)).setUei(Mockito.eq("uei"));
-		
+
 		builder.nodeId(1);
 		Mockito.verify(event, Mockito.times(1)).setNodeId(Mockito.eq(1));
-		
+
 		builder.operationInstruction("operinstruct");
 		Mockito.verify(event, Mockito.times(1)).setOperationInstruction(Mockito.eq("operinstruct"));
 	}
-	
+
 	@Test(expected = OpenNmsEventException.class)
 	public void testValidationOnSend() throws Exception {
-		OpenNmsEventBuilder
-			.create()
+		OpenNmsEventBuilder.create()
 			.uei(null)
 			.send(InetAddress.getLoopbackAddress());
 	}
-	
+
 	@Test(expected = OpenNmsEventException.class)
 	public void testValidationOnDirectSend() throws Exception {
-		OpenNmsEventBuilder
-			.create()
-			.send(InetAddress.getLoopbackAddress());
+		OpenNmsEventBuilder.create().send(InetAddress.getLoopbackAddress());
 	}
-	
+
 	@Test
 	public void testXml() throws Exception {
-		
+
 		final String host = "HOST";
 		final String source = "SOURCE";
 		final String service = "SERVICE";
@@ -99,36 +95,36 @@ public class OpenNmsEventBuilderTest {
 		final String uei = "UEI";
 		final int nodeId = 1337;
 		final String operInstruct = "OPERINSTRUCT";
-		
+
 		final String parameterName1 = "testNumber";
 		final int parameterValue1 = 1337;
 		final String parameterName2 = "anotherTestNumber";
 		final double parameterValue2 = 23.0;
-		
+
 		DateAdapter dateAdapter = new DateAdapter();
-		
+
 		String xml = OpenNmsEventBuilder.create()
-			.host(host)
-			.source(source)
-			.time(time)
-			.service(service)
-			.interfaceAddress(interfaceAddress)
-			.description(description)
-			.logMessage(logMessage, LogMessageDestination.DISCARD_TRAPS)
-			.severity(Severity.INDETERMINATE)
-			.uei(uei)
-			.nodeId(nodeId)
-			.operationInstruction(operInstruct)
-			.parameter(parameterName1, parameterValue1)
-			.parameter(parameterName2, parameterValue2)
-			.getXmlString();
-		
+				.host(host)
+				.source(source)
+				.time(time)
+				.service(service)
+				.interfaceAddress(interfaceAddress)
+				.description(description)
+				.logMessage(logMessage, LogMessageDestination.DISCARD_TRAPS)
+				.severity(Severity.INDETERMINATE)
+				.uei(uei)
+				.nodeId(nodeId)
+				.operationInstruction(operInstruct)
+				.parameter(parameterName1, parameterValue1)
+				.parameter(parameterName2, parameterValue2)
+				.getXmlString();
+
 		System.out.println(xml);
-		
+
 		Assert.assertNotNull(xml);
 		Assert.assertThat(xml.length(), Matchers.greaterThan(0));
 		Assert.assertThat(xml, Matchers.startsWith("<?xml"));
-		
+
 		Assert.assertThat(xml, Matchers.containsString(host));
 		Assert.assertThat(xml, Matchers.containsString(source));
 		Assert.assertThat(xml, Matchers.containsString(service));
@@ -139,14 +135,14 @@ public class OpenNmsEventBuilderTest {
 		Assert.assertThat(xml, Matchers.containsString(uei));
 		Assert.assertThat(xml, Matchers.containsString(String.valueOf(nodeId)));
 		Assert.assertThat(xml, Matchers.containsString(operInstruct));
-		
+
 		Assert.assertThat(xml, Matchers.containsString(parameterName1));
 		Assert.assertThat(xml, Matchers.containsString(parameterName2));
-		
+
 		Assert.assertThat(xml, Matchers.containsString(String.valueOf(parameterValue1)));
 		Assert.assertThat(xml, Matchers.containsString(String.valueOf(parameterValue2)));
 	}
-	
+
 	@Test(expected = UnknownHostException.class)
 	public void testInterfaceAddressException() throws Exception {
 		OpenNmsEventBuilder

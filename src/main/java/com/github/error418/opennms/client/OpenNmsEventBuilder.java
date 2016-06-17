@@ -27,27 +27,27 @@ import com.github.error418.opennms.client.transfer.ParameterValue;
 import com.github.error418.opennms.client.transfer.Severity;
 
 /**
- * The Event Builder assists you in building and sending an OpenNMS Event to a OpenNMS server.
+ * The Event Builder assists you in building and sending an OpenNMS Event to a
+ * OpenNMS server.
  * <p>
- * 	Events will be sent by calling the eventd daemon of OpenNMS by using a Socket connection.
+ * Events will be sent by calling the eventd daemon of OpenNMS by using a Socket
+ * connection.
  * </p>
  * 
  * <p>
- * <b>OpenNMS Documentation</b>
- * <blockquote>
- * 	The eventd process listens on port 5817, so other processes, even those external to OpenNMS,
- *  can send events to the system. The <security> tag is there so that these events cannot override
- *  the actions defined in the eventconf.xml file. This way, no one with access to the OpenNMS machine
- *  could send in an "autoaction" to open, say, a root window on their machine.
- * </blockquote>
+ * <b>OpenNMS Documentation</b> <blockquote> The eventd process listens on port
+ * 5817, so other processes, even those external to OpenNMS, can send events to
+ * the system. The <security> tag is there so that these events cannot override
+ * the actions defined in the eventconf.xml file. This way, no one with access
+ * to the OpenNMS machine could send in an "autoaction" to open, say, a root
+ * window on their machine. </blockquote>
  * </p>
  */
 public class OpenNmsEventBuilder {
 
 	private static final Logger logger = LoggerFactory.getLogger(OpenNmsEventBuilder.class);
-	private static final Class<?>[] BOUND_CLASSES = new Class<?>[] { Log.class, Event.class,
-			Parameter.class, ParameterValue.class };
-			
+	private static final Class<?>[] BOUND_CLASSES = new Class<?>[] { Log.class, Event.class, Parameter.class, ParameterValue.class };
+
 	/**
 	 * The OpenNMS standard port: {@value #ONMS_STANDARD_PORT}
 	 */
@@ -57,9 +57,10 @@ public class OpenNmsEventBuilder {
 	private Event event;
 
 	/**
-	 * Creates a new {@link OpenNmsEventBuilder} for easier and prettier chaining.
+	 * Creates a new {@link OpenNmsEventBuilder} for easier and prettier
+	 * chaining.
 	 * <p>
-	 * 	If you do not prefer chaining you can also use the Default Constructor.
+	 * If you do not prefer chaining you can also use the Default Constructor.
 	 * </p>
 	 * 
 	 * @return new {@link OpenNmsEventBuilder} instance
@@ -83,36 +84,46 @@ public class OpenNmsEventBuilder {
 
 		return writer.getBuffer().toString();
 	}
-	
-	
+
 	/**
-	 * Sends the current state of the Event to the given OpenNMS Server using the default port {@value #ONMS_STANDARD_PORT}.
+	 * Sends the current state of the Event to the given OpenNMS Server using
+	 * the default port {@value #ONMS_STANDARD_PORT}.
 	 * 
-	 * @param onmsAddress address of the OpenNMS server
+	 * @param onmsAddress
+	 *            address of the OpenNMS server
 	 * 
-	 * @throws OpenNmsEventException on message building exceptions
-	 * @throws IOException on socket related exceptions
-	 * @throws UnknownHostException on network/addressing errors
+	 * @throws OpenNmsEventException
+	 *             on message building exceptions
+	 * @throws IOException
+	 *             on socket related exceptions
+	 * @throws UnknownHostException
+	 *             on network/addressing errors
 	 */
 	public void send(InetAddress onmsAddress) throws OpenNmsEventException, IOException {
 		this.send(onmsAddress, ONMS_STANDARD_PORT);
 	}
 
 	/**
-	 * Sends the current state of the Event to the given OpenNMS Server using the given port.
+	 * Sends the current state of the Event to the given OpenNMS Server using
+	 * the given port.
 	 * 
-	 * @param onmsAddress address of the OpenNMS server
-	 * @param port port of the OpenNMS server event handling interface
+	 * @param onmsAddress
+	 *            address of the OpenNMS server
+	 * @param port
+	 *            port of the OpenNMS server event handling interface
 	 * 
-	 * @throws OpenNmsEventException on message building exceptions
-	 * @throws IOException on socket related exceptions
-	 * @throws UnknownHostException on network/addressing errors
+	 * @throws OpenNmsEventException
+	 *             on message building exceptions
+	 * @throws IOException
+	 *             on socket related exceptions
+	 * @throws UnknownHostException
+	 *             on network/addressing errors
 	 */
 	public void send(InetAddress onmsAddress, int port) throws OpenNmsEventException, IOException {
 		if (this.event.getUei() == null) {
 			throw new OpenNmsEventException("An event needs to have an UEI specified.");
 		}
-		
+
 		Socket socket = null;
 
 		try {
@@ -147,7 +158,7 @@ public class OpenNmsEventBuilder {
 		this.event = new Event();
 		this.model = new Log(event);
 	}
-	
+
 	/**
 	 * This Constructor is used for testing purposes.
 	 * 
@@ -161,16 +172,17 @@ public class OpenNmsEventBuilder {
 	/**
 	 * Sets the OpenNMS Unique Event Identifier.
 	 * <p>
-	 * <b>OpenNMS Documentation</b>
-	 * <blockquote>
-	 * 	The "Universal Event Identifier" is simply a label to uniquely identify the event.
-	 * 	The original intent was that this would be some sort of XML namespace, hence the "http://", but it really is just a label.
-	 * 	In version 1.1 and beyond, the "http://" has been removed. Note: for internal OpenNMS events, the UEI is generated directly
-	 * 	by the code and cannot be changed without modifying the source.
-	 * </blockquote>
+	 * <b>OpenNMS Documentation</b> <blockquote> The
+	 * "Universal Event Identifier" is simply a label to uniquely identify the
+	 * event. The original intent was that this would be some sort of XML
+	 * namespace, hence the "http://", but it really is just a label. In version
+	 * 1.1 and beyond, the "http://" has been removed. Note: for internal
+	 * OpenNMS events, the UEI is generated directly by the code and cannot be
+	 * changed without modifying the source. </blockquote>
 	 * </p>
 	 * 
-	 * @param uei OpenNMS Unique Event Identifier
+	 * @param uei
+	 *            OpenNMS Unique Event Identifier
 	 * @return current Builder instance
 	 */
 	public OpenNmsEventBuilder uei(String uei) {
@@ -181,7 +193,8 @@ public class OpenNmsEventBuilder {
 	/**
 	 * Sets the source NodeId of the event.
 	 * 
-	 * @param nodeId The NodeId of the device that caused the event
+	 * @param nodeId
+	 *            The NodeId of the device that caused the event
 	 * @return current Builder instance
 	 */
 	public OpenNmsEventBuilder nodeId(int nodeId) {
@@ -192,7 +205,8 @@ public class OpenNmsEventBuilder {
 	/**
 	 * Sets the source of the event (what process).
 	 * 
-	 * @param source The source of the event (what process).
+	 * @param source
+	 *            The source of the event (what process).
 	 * @return current Builder instance
 	 */
 	public OpenNmsEventBuilder source(String source) {
@@ -203,7 +217,8 @@ public class OpenNmsEventBuilder {
 	/**
 	 * Sets the source host of the event.
 	 * 
-	 * @param host the source host of the event
+	 * @param host
+	 *            the source host of the event
 	 * @return current Builder instance
 	 */
 	public OpenNmsEventBuilder host(String host) {
@@ -214,7 +229,8 @@ public class OpenNmsEventBuilder {
 	/**
 	 * Sets the time of the event.
 	 * 
-	 * @param time the time of the event
+	 * @param time
+	 *            the time of the event
 	 * @return current Builder instance
 	 */
 	public OpenNmsEventBuilder time(Date time) {
@@ -225,7 +241,8 @@ public class OpenNmsEventBuilder {
 	/**
 	 * Sets the severity of the event.
 	 * 
-	 * @param severity the severity of the event
+	 * @param severity
+	 *            the severity of the event
 	 * @return current Builder instance
 	 */
 	public OpenNmsEventBuilder severity(Severity severity) {
@@ -236,15 +253,14 @@ public class OpenNmsEventBuilder {
 	/**
 	 * Sets the description of the event.
 	 * 
-	 * <b>OpenNMS Documentation</b>
-	 * <blockquote>
-	 * You can embed HTML entities should you wish to format the description more fully.
-	 * Note that there are replacement tokens such as %interface% that you can place in the event
+	 * <b>OpenNMS Documentation</b> <blockquote> You can embed HTML entities
+	 * should you wish to format the description more fully. Note that there are
+	 * replacement tokens such as %interface% that you can place in the event
 	 * description and log message. For more information on replacement tokens
-	 * see the OpenNMS Documentation/Wiki.
-	 * </blockquote>
+	 * see the OpenNMS Documentation/Wiki. </blockquote>
 	 * 
-	 * @param description Description of the event
+	 * @param description
+	 *            Description of the event
 	 * @return current Builder instance
 	 */
 	public OpenNmsEventBuilder description(String description) {
@@ -255,7 +271,8 @@ public class OpenNmsEventBuilder {
 	/**
 	 * Sets the service associated with the event
 	 * 
-	 * @param service the service associated with the event
+	 * @param service
+	 *            the service associated with the event
 	 * @return current Builder instance
 	 */
 	public OpenNmsEventBuilder service(String service) {
@@ -277,30 +294,38 @@ public class OpenNmsEventBuilder {
 	/**
 	 * Sets the interface associated with the event.
 	 * 
-	 * Consider using {@link #interfaceAddress(InetAddress)} instead of this method.
+	 * Consider using {@link #interfaceAddress(InetAddress)} instead of this
+	 * method.
 	 * 
 	 * @see #interfaceAddress(InetAddress)
 	 * 
-	 * @param interfaceAddress interface associated with the event.
+	 * @param interfaceAddress
+	 *            interface associated with the event.
 	 * @return current Builder instance
 	 * 
-	 * @throws UnknownHostException if the method was not able to resolve the supplied host name
+	 * @throws UnknownHostException
+	 *             if the method was not able to resolve the supplied host name
 	 */
 	public OpenNmsEventBuilder interfaceAddress(String interfaceAddress) throws UnknownHostException {
 		InetAddress address = InetAddress.getByName(interfaceAddress);
-		
+
 		this.event.setInterfaceAddress(address);
 		return this;
 	}
-	
+
 	/**
 	 * Sets the interface associated with the event.
 	 * 
 	 * <p>
-	 * Maps to the event attribute <pre>interface</pre>
+	 * Maps to the event attribute
+	 * 
+	 * <pre>
+	 * interface
+	 * </pre>
 	 * </p>
 	 * 
-	 * @param interfaceAddress interface associated with the event.
+	 * @param interfaceAddress
+	 *            interface associated with the event.
 	 * @return current Builder instance
 	 */
 	public OpenNmsEventBuilder interfaceAddress(InetAddress interfaceAddress) {
@@ -311,7 +336,8 @@ public class OpenNmsEventBuilder {
 	/**
 	 * Sets a instructions for the NMS operator when the event occurs.
 	 * 
-	 * @param operationInstruction instructions for the NMS operator when the event occurs
+	 * @param operationInstruction
+	 *            instructions for the NMS operator when the event occurs
 	 * @return current Builder instance
 	 */
 	public OpenNmsEventBuilder operationInstruction(String operationInstruction) {
@@ -322,19 +348,22 @@ public class OpenNmsEventBuilder {
 	/**
 	 * Is a short description or summary of the event.
 	 * 
-	 * @param logMessage a short description or summary of the event
+	 * @param logMessage
+	 *            a short description or summary of the event
 	 * @return current Builder instance
 	 */
 	public OpenNmsEventBuilder logMessage(String logMessage) {
 		this.event.setLogMessage(new LogMessage(logMessage));
 		return this;
 	}
-	
+
 	/**
 	 * Is a short description or summary of the event.
 	 * 
-	 * @param logMessage a short description or summary of the event
-	 * @param destination the destination of the log message.
+	 * @param logMessage
+	 *            a short description or summary of the event
+	 * @param destination
+	 *            the destination of the log message.
 	 * @return current Builder instance
 	 */
 	public OpenNmsEventBuilder logMessage(String logMessage, LogMessageDestination destination) {
@@ -346,16 +375,17 @@ public class OpenNmsEventBuilder {
 	 * Adds a parameter.
 	 * 
 	 * <p>
-	 * <b>OpenNMS Documentation</b>
-	 * <blockquote>
-	 * Some events, especially SNMP traps, have additional information sent with them called 
-	 * "variable bindings" or "varbinds" for short. They can be accessed using the parm replacement token.
-	 * Each parameter consists of a name and a value. 
-	 * </blockquote>
+	 * <b>OpenNMS Documentation</b> <blockquote> Some events, especially SNMP
+	 * traps, have additional information sent with them called
+	 * "variable bindings" or "varbinds" for short. They can be accessed using
+	 * the parm replacement token. Each parameter consists of a name and a
+	 * value. </blockquote>
 	 * </p>
 	 * 
-	 * @param name parameter name to add
-	 * @param value parameter value to add
+	 * @param name
+	 *            parameter name to add
+	 * @param value
+	 *            parameter value to add
 	 * @return current Builder instance
 	 */
 	public OpenNmsEventBuilder parameter(String name, String value) {
@@ -373,7 +403,7 @@ public class OpenNmsEventBuilder {
 
 		return this;
 	}
-	
+
 	/**
 	 * Adds a numeric parameter.
 	 * <p>
@@ -382,12 +412,14 @@ public class OpenNmsEventBuilder {
 	 * 
 	 * @see #parameter(String, String)
 	 * 
-	 * @param name name of the parameter to add
-	 * @param value value of the parameter to add
+	 * @param name
+	 *            name of the parameter to add
+	 * @param value
+	 *            value of the parameter to add
 	 * @return current Builder instance
 	 */
 	public OpenNmsEventBuilder parameter(String name, Number value) {
 		return parameter(name, String.valueOf(value));
 	}
-	
+
 }
