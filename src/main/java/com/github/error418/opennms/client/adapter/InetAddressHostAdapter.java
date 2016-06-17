@@ -8,13 +8,15 @@ public class InetAddressHostAdapter extends XmlAdapter<String, InetAddress> {
 
 	@Override
 	public String marshal(InetAddress address) throws Exception {
-		if (address == null) return null;
+		if (address == null)
+			return null;
 		return address.getHostAddress();
 	}
 
 	@Override
 	public InetAddress unmarshal(String address) throws Exception {
-		if (address == null) return null;
+		if (address == null)
+			return null;
 		return InetAddress.getByName(address);
 	}
 

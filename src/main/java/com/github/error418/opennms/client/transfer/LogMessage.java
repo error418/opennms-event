@@ -21,7 +21,7 @@ public class LogMessage {
 	public LogMessage(String message) {
 		this.message = message;
 	}
-	
+
 	public LogMessage(String message, LogMessageDestination destination) {
 		this.message = message;
 		this.destination = destination;

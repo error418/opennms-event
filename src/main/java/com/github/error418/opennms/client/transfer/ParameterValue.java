@@ -18,11 +18,10 @@ public class ParameterValue {
 
 	@XmlValue
 	private String value;
-	
-	
+
 	public ParameterValue() {
 	}
-	
+
 	public ParameterValue(String value) {
 		this.value = value;
 	}
