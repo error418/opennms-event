@@ -1,6 +1,6 @@
 # opennms-event
 
-[![Build Status](https://travis-ci.org/error418/opennms-event.svg?branch=feature%2Fci-support)](https://travis-ci.org/error418/opennms-event)]
+[![Build Status](https://travis-ci.org/error418/opennms-event.svg?branch=master)](https://travis-ci.org/error418/opennms-event)
 
 A Java OpenNMS client for creating events via ONMS *eventd* daemon.
 
