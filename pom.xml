@@ -4,12 +4,14 @@
 	<groupId>com.github.error418.opennms</groupId>
 	<artifactId>event-client</artifactId>
 	<version>0.1.0</version>
+	
+	<description>A Java OpenNMS client for creating events via ONMS eventd daemon.</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
-
+	
 	<dependencies>
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
@@ -98,6 +100,21 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
 				<version>3.0.3</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>3.6</version>
+				<configuration>
+					<skipEmptyReport>false</skipEmptyReport>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.4</version>
 			</plugin>
 		</plugins>
 	</reporting>
