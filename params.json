@@ -1,0 +1,6 @@
+{
+  "name": "opennms-event",
+  "tagline": "A Java OpenNMS client for creating events via ONMS eventd daemon",
+  "body": "# OpenNMS Event Client for Java\r\n\r\n[![Build Status](https://travis-ci.org/error418/opennms-event.svg?branch=master)](https://travis-ci.org/error418/opennms-event)\r\n\r\nA Java OpenNMS client for creating events via ONMS *eventd* daemon.\r\n\r\n## Functional Description\r\n\r\nThis library is intended to support the developer when sending ONMS Events in Java. The library utilizes\r\nJAX-B to generate the XML message.\r\n\r\n\r\n### Usage\r\n\r\n```java\r\nOpenNmsEventBuilder.create()\r\n\t.host(\"host\")\r\n\t.source(\"source\")\r\n\t.time(new Date())\r\n\t.service(\"service\")\r\n\t.description(\"description\")\r\n\t.uei(\"uei\")\r\n\t.send(\"my.opennms.server\");\r\n```\r\n\r\n## Supported Properties\r\n\r\nFollowing Event properties are supported by this project:\r\n\r\n* uei\r\n* source\r\n* nodeid\r\n* time\r\n* host\r\n* interface\r\n* service\r\n* ifIndex\r\n* descr\r\n* logmsg\r\n* severity\r\n* operinstruct\r\n* parms\r\n\r\nNote that the ONMS Event configuration of your OpenNMS Server may have restrictions on overriding event properties.\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
