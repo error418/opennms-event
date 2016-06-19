@@ -39,6 +39,8 @@ public class OpenNmsEventBuilderTest {
 		Date now = new Date();
 		builder.time(now);
 		Mockito.verify(event, Mockito.times(1)).setTime(Mockito.eq(now));
+		Assert.assertEquals(now, event.getTime());
+		Assert.assertNotSame(now, event.getTime());
 
 		builder.service("service");
 		Mockito.verify(event, Mockito.times(1)).setService(Mockito.eq("service"));

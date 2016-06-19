@@ -87,12 +87,30 @@ public class Event {
 		this.nodeId = nodeId;
 	}
 
+	/**
+	 * Returns a clone of the Event's time instance
+	 * 
+	 * @return clone of the event's time instance
+	 */
 	public Date getTime() {
-		return time;
+		if(this.time == null) {
+			return null;
+		} else {
+			return (Date)this.time.clone();
+		}
 	}
 
+	/**
+	 * Sets the event's time by cloning the passed date instance.
+	 * 
+	 * @param time time of the event
+	 */
 	public void setTime(Date time) {
-		this.time = time;
+		if(time == null) {
+			this.time = null;
+		} else {
+			this.time = (Date)time.clone();
+		}
 	}
 
 	public String getHost() {
