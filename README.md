@@ -42,3 +42,24 @@ Following Event properties are supported by this project:
 * parms
 
 Note that the ONMS Event configuration of your OpenNMS Server may have restrictions on overriding event properties.
+
+## Parameters
+
+In some situations OpenNMS `parm` entries need to be supplied in a specific order. To encapsulate this knowledge from the
+user of the library, a custom Parameter Collection can be used.
+
+After writing your custom `ParameterCollection` class by extending from `ParameterCollection`, setting parameters
+can for example look like this:
+
+```java
+OpenNmsEventBuilder.create()
+	.parameter(
+		new CustomParameterCollection()
+			.setFirstParameter("1")
+			.setThirdParameter("3")
+			.setSecondParameter(2)
+	);
+		
+```
+
+In case you need some examples, the class `CustomParameterCollection` can be viewed for a better understanding.
