@@ -11,8 +11,7 @@ import com.github.error418.opennms.client.transfer.ParameterValue;
  * Superclass for Parameter Collections.
  * 
  *  This class ensures the correct order of parameters inside a parameter collection.
- *  Developers do not need to know the order OpenNMS is expecting the parameters.
- * 
+ *  
  */
 public abstract class ParameterCollection {
 	
