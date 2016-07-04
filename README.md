@@ -62,4 +62,4 @@ OpenNmsEventBuilder.create()
 		
 ```
 
-In case you need some examples the class `CustomParameterCollection` can be viewed for a better understanding.
+In case you need some examples, the class `CustomParameterCollection` can be viewed for a better understanding.
