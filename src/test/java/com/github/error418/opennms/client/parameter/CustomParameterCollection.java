@@ -18,15 +18,18 @@ public class CustomParameterCollection extends ParameterCollection {
 		}
 	}
 	
-	public void setFirstParameter(String value) {
+	public CustomParameterCollection setFirstParameter(String value) {
 		this.setValue(FIRST_PARAM, value);
+		return this;
 	}
 
-	public void setSecondParameter(Integer value) {
+	public CustomParameterCollection setSecondParameter(Integer value) {
 		this.setValue(SECOND_PARAM, value);
+		return this;
 	}
 
-	public void setThirdParameter(String value) {
+	public CustomParameterCollection setThirdParameter(String value) {
 		this.setValue(THIRD_PARAM, value);
+		return this;
 	}
 }

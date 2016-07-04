@@ -75,13 +75,14 @@ public class OpenNmsEventBuilderTest {
 	
 	@Test
 	public void testParameterCollectionOrder() throws Exception {
-		CustomParameterCollection parameterCollection = new CustomParameterCollection();
-		parameterCollection.setFirstParameter("1");
-		parameterCollection.setSecondParameter(2);
-		parameterCollection.setThirdParameter("3");
 		
 		OpenNmsEventBuilder builder = new OpenNmsEventBuilder(event);
-		builder.parameter(parameterCollection);
+		builder.parameter(
+				new CustomParameterCollection()
+					.setThirdParameter("3")
+					.setSecondParameter(2)
+					.setFirstParameter("1")
+		);
 		
 		Assert.assertEquals("1", event.getParameterList().get(0).getParameterValue().getValue());
 		Assert.assertEquals("2", event.getParameterList().get(1).getParameterValue().getValue());
