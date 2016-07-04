@@ -45,19 +45,21 @@ Note that the ONMS Event configuration of your OpenNMS Server may have restricti
 
 ## Parameters
 
-In some situations OpenNMS needs to be supplied `parms` in a specific order. To encapsulate the knowledge of the correct order
-you can use a custom Parameter Collection by extending from `ParameterCollection`.
+In some situations OpenNMS `parm` entries need to be supplied in a specific order. To encapsulate this knowledge from the
+user of the library, a custom Parameter Collection can be used.
 
-View the class `CustomParameterCollection` for a better understanding.
-
-After writing your custom `ParameterCollection` class, setting parameters can for example look like this:
+After writing your custom `ParameterCollection` class by extending from `ParameterCollection`, setting parameters
+can for example look like this:
 
 ```java
-openNmsBuilder.parameter(
+OpenNmsEventBuilder.create()
+	.parameter(
 		new CustomParameterCollection()
 			.setFirstParameter("1")
 			.setThirdParameter("3")
 			.setSecondParameter(2)
-);
+	);
 		
 ```
+
+In case you need some examples the class `CustomParameterCollection` can be viewed for a better understanding.
