@@ -7,6 +7,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.github.error418.opennms.client.exception.ParameterValidationException;
+import com.github.error418.opennms.client.parameter.collection.CustomParameterCollection;
+import com.github.error418.opennms.client.parameter.collection.DefaultValueParameterCollection;
+import com.github.error418.opennms.client.parameter.collection.FailParameterCollection;
 import com.github.error418.opennms.client.transfer.Parameter;
 
 

@@ -11,8 +11,8 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import com.github.error418.opennms.client.adapter.DateAdapter;
-import com.github.error418.opennms.client.adapter.InetAddressHostAdapter;
+import com.github.error418.opennms.client.transfer.adapter.DateAdapter;
+import com.github.error418.opennms.client.transfer.adapter.InetAddressHostAdapter;
 
 @XmlRootElement(name = "event")
 @XmlAccessorType(XmlAccessType.NONE)
