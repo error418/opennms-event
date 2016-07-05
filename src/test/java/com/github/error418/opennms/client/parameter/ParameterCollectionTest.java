@@ -54,4 +54,22 @@ public class ParameterCollectionTest {
 	public void testDuplicateConfiguration() throws Exception {
 		new FailParameterCollection();
 	}
+	
+	@Test
+	public void testIsNull() throws Exception {
+		parameters.setFirstParameter(null);
+		Assert.assertTrue(parameters.isParameterNull(CustomParameterCollection.FIRST_PARAM));
+		
+		parameters.setFirstParameter("not null anymore!");
+		Assert.assertFalse(parameters.isParameterNull(CustomParameterCollection.FIRST_PARAM));
+	}
+	
+	@Test
+	public void testGetValue() throws Exception {
+		parameters.setFirstParameter("Some value");
+		Assert.assertEquals("Some value", parameters.getValue(CustomParameterCollection.FIRST_PARAM));
+		
+		parameters.setFirstParameter("Another value");
+		Assert.assertEquals("Another value", parameters.getValue(CustomParameterCollection.FIRST_PARAM));
+	}
 }
