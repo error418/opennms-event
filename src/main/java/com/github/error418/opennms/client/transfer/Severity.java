@@ -77,7 +77,7 @@ public enum Severity {
 	 * @param value severity value to search for
 	 * @return null, if no severity is assigned to the given value; otherwise the assigned Severity enum.
 	 */
-	public Severity getSeverity(int value) {
+	public static Severity getSeverity(int value) {
 		for(Severity severity : Severity.values()) {
 			if (severity.value() == value) {
 				return severity;
