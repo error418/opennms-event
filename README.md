@@ -64,6 +64,11 @@ public class CustomParameterCollection extends ParameterCollection {
 		}
 	}
 	
+	@Override
+	protected void validate() throws ParameterValidationException {
+
+	}
+	
 	public CustomParameterCollection setFirstParameter(String value) {
 		this.setValue(FIRST_PARAM, value);
 		return this;
