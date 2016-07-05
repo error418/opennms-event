@@ -48,18 +48,43 @@ Note that the ONMS Event configuration of your OpenNMS Server may have restricti
 In some situations OpenNMS `parm` entries need to be supplied in a specific order. To encapsulate this knowledge from the
 user of the library, a custom Parameter Collection can be used.
 
+A custom `ParameterCollection` can look like this:
+
+```java
+public class CustomParameterCollection extends ParameterCollection {
+
+	private final static String FIRST_PARAM = "firstParameter";
+	private final static String SECOND_PARAM = "secondParameter";
+
+	private String[] parameterOrder = { FIRST_PARAM, SECOND_PARAM };
+
+	public CustomParameterCollection() {
+		for (String parameterName : parameterOrder) {
+			this.configureParameter(parameterName);
+		}
+	}
+	
+	public CustomParameterCollection setFirstParameter(String value) {
+		this.setValue(FIRST_PARAM, value);
+		return this;
+	}
+
+	public CustomParameterCollection setSecondParameter(Integer value) {
+		this.setValue(SECOND_PARAM, value);
+		return this;
+	}
+}
+```
+
 After writing your custom `ParameterCollection` class by extending from `ParameterCollection`, setting parameters
 can for example look like this:
 
 ```java
+// Using a custom ParameterCollection
 OpenNmsEventBuilder.create()
 	.parameter(
 		new CustomParameterCollection()
-			.setFirstParameter("1")
-			.setThirdParameter("3")
 			.setSecondParameter(2)
+			.setFirstParameter("1")
 	);
-		
 ```
-
-In case you need some examples, the class `CustomParameterCollection` can be viewed for a better understanding.
