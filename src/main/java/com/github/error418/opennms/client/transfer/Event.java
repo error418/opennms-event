@@ -25,7 +25,7 @@ public class Event {
 	private String source;
 
 	@XmlElement(name = "nodeid")
-	private int nodeId;
+	private Integer nodeId;
 
 	@XmlElement(name = "time")
 	@XmlJavaTypeAdapter(DateAdapter.class)
@@ -79,11 +79,11 @@ public class Event {
 		this.source = source;
 	}
 
-	public int getNodeId() {
+	public Integer getNodeId() {
 		return nodeId;
 	}
 
-	public void setNodeId(int nodeId) {
+	public void setNodeId(Integer nodeId) {
 		this.nodeId = nodeId;
 	}
 
