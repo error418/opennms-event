@@ -49,4 +49,9 @@ public class ParameterCollectionTest {
 		parameters.setFirstParameter("it's okay now");
 		parameters.buildParameterList();
 	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testDuplicateConfiguration() throws Exception {
+		new FailParameterCollection();
+	}
 }
