@@ -34,7 +34,7 @@ public class Event {
 	@XmlElement(name = "host")
 	private String host;
 
-	@XmlElement(name = "parms")
+	@XmlElement(name = "parm")
 	@XmlElementWrapper(name = "parms")
 	private List<Parameter> parameterList;
 
