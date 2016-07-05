@@ -70,4 +70,20 @@ public enum Severity {
 	public int value() {
 		return this.severityValue;
 	}
+	
+	/**
+	 * Returns the Severity enum, which is associated with the given value.
+	 * 
+	 * @param value severity value to search for
+	 * @return null, if no severity is assigned to the given value; otherwise the assigned Severity enum.
+	 */
+	public Severity getSeverity(int value) {
+		for(Severity severity : Severity.values()) {
+			if (severity.value() == value) {
+				return severity;
+			}
+		}
+		
+		return null;
+	}
 }
