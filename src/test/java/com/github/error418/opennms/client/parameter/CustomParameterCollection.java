@@ -1,5 +1,7 @@
 package com.github.error418.opennms.client.parameter;
 
+import com.github.error418.opennms.client.exception.ParameterValidationException;
+
 /**
  * A custom Parameter Collection.
  * 
@@ -32,4 +34,12 @@ public class CustomParameterCollection extends ParameterCollection {
 		this.setValue(THIRD_PARAM, value);
 		return this;
 	}
+
+	@Override
+	protected void validate() throws ParameterValidationException {
+		if(this.isParameterNull(FIRST_PARAM)) {
+			throw new ParameterValidationException();
+		}
+	}
+
 }
