@@ -12,6 +12,7 @@ import org.mockito.Mockito;
 
 import com.github.error418.opennms.client.adapter.DateAdapter;
 import com.github.error418.opennms.client.exception.OpenNmsEventException;
+import com.github.error418.opennms.client.parameter.CustomParameterCollection;
 import com.github.error418.opennms.client.transfer.Event;
 import com.github.error418.opennms.client.transfer.LogMessage;
 import com.github.error418.opennms.client.transfer.LogMessageDestination;
@@ -70,6 +71,22 @@ public class OpenNmsEventBuilderTest {
 
 		builder.operationInstruction("operinstruct");
 		Mockito.verify(event, Mockito.times(1)).setOperationInstruction(Mockito.eq("operinstruct"));
+	}
+	
+	@Test
+	public void testParameterCollectionOrder() throws Exception {
+		
+		OpenNmsEventBuilder builder = new OpenNmsEventBuilder(event);
+		builder.parameter(
+				new CustomParameterCollection()
+					.setThirdParameter("3")
+					.setSecondParameter(2)
+					.setFirstParameter("1")
+		);
+		
+		Assert.assertEquals("1", event.getParameterList().get(0).getParameterValue().getValue());
+		Assert.assertEquals("2", event.getParameterList().get(1).getParameterValue().getValue());
+		Assert.assertEquals("3", event.getParameterList().get(2).getParameterValue().getValue());
 	}
 
 	@Test(expected = OpenNmsEventException.class)

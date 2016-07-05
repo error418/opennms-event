@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.error418.opennms.client.exception.OpenNmsEventException;
+import com.github.error418.opennms.client.parameter.ParameterCollection;
 import com.github.error418.opennms.client.transfer.Event;
 import com.github.error418.opennms.client.transfer.Log;
 import com.github.error418.opennms.client.transfer.LogMessage;
@@ -402,7 +403,7 @@ public class OpenNmsEventBuilder {
 
 		Parameter parameter = new Parameter();
 		parameter.setParameterName(name);
-		parameter.setValue(new ParameterValue(value));
+		parameter.setParameterValue(new ParameterValue(value));
 
 		list.add(parameter);
 
@@ -425,6 +426,22 @@ public class OpenNmsEventBuilder {
 	 */
 	public OpenNmsEventBuilder parameter(String name, Number value) {
 		return parameter(name, String.valueOf(value));
+	}
+	
+	/**
+	 * Replaces the Parameter List with the list built from a {@link ParameterCollection}.
+	 * <p>
+	 *  Be aware that previous configured Parameters will be lost!
+	 * </p>
+	 * 
+	 * @param parameterCollection parameter collection
+	 * @return current Builder instance
+	 */
+	public OpenNmsEventBuilder parameter(ParameterCollection parameterCollection) {
+		LinkedList<Parameter> params = parameterCollection.buildParameterList();
+		this.event.setParameterList(params);
+		
+		return this;
 	}
 
 }

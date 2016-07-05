@@ -13,7 +13,7 @@ public class Parameter {
 	private String parameterName;
 
 	@XmlElement(name = "value")
-	private ParameterValue value;
+	private ParameterValue parameterValue;
 
 	public String getParameterName() {
 		return parameterName;
@@ -23,12 +23,12 @@ public class Parameter {
 		this.parameterName = parameterName;
 	}
 
-	public ParameterValue getValue() {
-		return value;
+	public ParameterValue getParameterValue() {
+		return parameterValue;
 	}
 
-	public void setValue(ParameterValue value) {
-		this.value = value;
+	public void setParameterValue(ParameterValue value) {
+		this.parameterValue = value;
 	}
 
 }
