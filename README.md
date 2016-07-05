@@ -76,7 +76,7 @@ public class CustomParameterCollection extends ParameterCollection {
 }
 ```
 
-After writing your custom `ParameterCollection` class setting parameters can for example look like this:
+After writing your custom `ParameterCollection` class, setting parameters can for example look like this:
 
 ```java
 // Using a custom ParameterCollection
