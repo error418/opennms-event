@@ -22,8 +22,11 @@ OpenNmsEventBuilder.create()
 	.uei("uei")
 	.send("my.opennms.server");
 ```
+## Properties
 
-## Supported Properties
+This section covers handling and setting Event properties
+
+### Supported Properties
 
 Following Event properties are supported by this project:
 
@@ -42,6 +45,17 @@ Following Event properties are supported by this project:
 * parms
 
 Note that the ONMS Event configuration of your OpenNMS Server may have restrictions on overriding event properties.
+
+
+### Required Properties
+
+Following properties need to be set for most of the Event types in order to be processed by the `eventd` daemon:
+
+* uei
+* source
+* time
+
+Make sure these properties are set before sending the event with `send()`
 
 ## Parameters
 
