@@ -11,8 +11,8 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import com.github.error418.opennms.client.adapter.DateAdapter;
-import com.github.error418.opennms.client.adapter.InetAddressHostAdapter;
+import com.github.error418.opennms.client.transfer.adapter.DateAdapter;
+import com.github.error418.opennms.client.transfer.adapter.InetAddressHostAdapter;
 
 @XmlRootElement(name = "event")
 @XmlAccessorType(XmlAccessType.NONE)
@@ -25,7 +25,7 @@ public class Event {
 	private String source;
 
 	@XmlElement(name = "nodeid")
-	private int nodeId;
+	private Integer nodeId;
 
 	@XmlElement(name = "time")
 	@XmlJavaTypeAdapter(DateAdapter.class)
@@ -34,7 +34,7 @@ public class Event {
 	@XmlElement(name = "host")
 	private String host;
 
-	@XmlElement(name = "parms")
+	@XmlElement(name = "parm")
 	@XmlElementWrapper(name = "parms")
 	private List<Parameter> parameterList;
 
@@ -79,11 +79,11 @@ public class Event {
 		this.source = source;
 	}
 
-	public int getNodeId() {
+	public Integer getNodeId() {
 		return nodeId;
 	}
 
-	public void setNodeId(int nodeId) {
+	public void setNodeId(Integer nodeId) {
 		this.nodeId = nodeId;
 	}
 

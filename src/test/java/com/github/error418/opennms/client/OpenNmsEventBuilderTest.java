@@ -10,13 +10,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import com.github.error418.opennms.client.adapter.DateAdapter;
 import com.github.error418.opennms.client.exception.OpenNmsEventException;
-import com.github.error418.opennms.client.parameter.CustomParameterCollection;
+import com.github.error418.opennms.client.parameter.collection.CustomParameterCollection;
 import com.github.error418.opennms.client.transfer.Event;
 import com.github.error418.opennms.client.transfer.LogMessage;
 import com.github.error418.opennms.client.transfer.LogMessageDestination;
 import com.github.error418.opennms.client.transfer.Severity;
+import com.github.error418.opennms.client.transfer.adapter.DateAdapter;
 
 public class OpenNmsEventBuilderTest {
 

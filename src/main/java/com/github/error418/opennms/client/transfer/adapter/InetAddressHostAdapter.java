@@ -1,4 +1,4 @@
-package com.github.error418.opennms.client.adapter;
+package com.github.error418.opennms.client.transfer.adapter;
 
 import java.net.InetAddress;
 
