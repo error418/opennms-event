@@ -75,4 +75,9 @@ public class ParameterCollectionTest {
 		parameters.setFirstParameter("Another value");
 		Assert.assertEquals("Another value", parameters.getValue(CustomParameterCollection.FIRST_PARAM));
 	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testUnknownParameter() throws Exception {
+		parameters.setValue("this is an unknown parameter", "fail");
+	}
 }

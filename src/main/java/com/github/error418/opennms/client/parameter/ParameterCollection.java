@@ -83,11 +83,28 @@ public abstract class ParameterCollection {
 	/**
 	 * Sets the value of a parameter.
 	 * 
-	 * @param key Parameter name
+	 * @param parameterName Parameter name
 	 * @param value Parameter value
+	 * 
+	 * @throws IllegalArgumentException if the parameter name is not known by the parameter collection configuration.
 	 */
-	protected final void setValue(String key, String value) {
-		parameters.put(key, value);
+	protected final void setValue(String parameterName, String value) throws IllegalArgumentException {
+		if (!parameters.containsKey(parameterName)) {
+			throw new IllegalArgumentException("parameter '" + parameterName + "' is not configured.");
+		}
+		parameters.put(parameterName, value);
+	}
+	
+	/**
+	 * Sets the value of a parameter.
+	 * 
+	 * @param parameterName Parameter name
+	 * @param value Parameter value
+	 * 
+	 * @throws IllegalArgumentException if the parameter name is not known by the parameter collection configuration.
+	 */
+	protected final void setValue(String parameterName, Number value) throws IllegalArgumentException {
+		this.setValue(parameterName, String.valueOf(value));
 	}
 	
 	/**
@@ -110,16 +127,6 @@ public abstract class ParameterCollection {
 		return parameters.get(parameterName);
 	}
 
-	/**
-	 * Sets the value of a parameter.
-	 * 
-	 * @param key Parameter name
-	 * @param value Parameter value
-	 */
-	protected final void setValue(String key, Number value) {
-		this.setValue(key, String.valueOf(value));
-	}
-	
 	/**
 	 * Builds the parameter list.
 	 * 
