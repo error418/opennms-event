@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import com.github.error418.opennms.client.exception.OpenNmsEventException;
+import com.github.error418.opennms.client.exception.RequiredPropertyException;
 import com.github.error418.opennms.client.parameter.collection.CustomParameterCollection;
 import com.github.error418.opennms.client.transfer.Event;
 import com.github.error418.opennms.client.transfer.LogMessage;
@@ -89,18 +89,68 @@ public class OpenNmsEventBuilderTest {
 		Assert.assertEquals("3", event.getParameterList().get(2).getParameterValue().getValue());
 	}
 
-	@Test(expected = OpenNmsEventException.class)
-	public void testValidationOnSend() throws Exception {
-		OpenNmsEventBuilder.create()
-			.uei(null)
-			.send(InetAddress.getLoopbackAddress());
-	}
 
-	@Test(expected = OpenNmsEventException.class)
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	// Validation Tests
+	//////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Test(expected = RequiredPropertyException.class)
 	public void testValidationOnDirectSend() throws Exception {
 		OpenNmsEventBuilder.create().send(InetAddress.getLoopbackAddress());
 	}
 
+	@Test
+	public void testValidationUeiIsNull() throws Exception {
+		try {
+		OpenNmsEventBuilder.create()
+			.uei(null)
+			.time(new Date())
+			.source("some source")
+			.send(InetAddress.getLoopbackAddress());
+		
+			Assert.fail();
+		}
+		catch (RequiredPropertyException e) {
+			Assert.assertEquals(e.getPropertyName(), "UEI");
+		}
+	}
+	
+	@Test
+	public void testValidationTimeIsNull() throws Exception {
+		try {
+		OpenNmsEventBuilder.create()
+			.uei("some uei")
+			.source("some source")
+			.time(null)
+			.send(InetAddress.getLoopbackAddress());
+		
+			Assert.fail();
+		}
+		catch (RequiredPropertyException e) {
+			Assert.assertEquals(e.getPropertyName(), "time");
+		}
+	}
+	
+	@Test
+	public void testValidationSourceIsNull() throws Exception {
+		try {
+		OpenNmsEventBuilder.create()
+			.uei("some uei")
+			.source(null)
+			.time(new Date())
+			.send(InetAddress.getLoopbackAddress());
+		
+			Assert.fail();
+		}
+		catch (RequiredPropertyException e) {
+			Assert.assertEquals(e.getPropertyName(), "source");
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	// XML Tests
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	
 	@Test
 	public void testXml() throws Exception {
 
@@ -166,4 +216,5 @@ public class OpenNmsEventBuilderTest {
 			.create()
 			.interfaceAddress("192.168.0.500");
 	}
+	
 }
