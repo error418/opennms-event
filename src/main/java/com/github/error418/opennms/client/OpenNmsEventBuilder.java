@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.error418.opennms.client.exception.OpenNmsEventException;
+import com.github.error418.opennms.client.exception.RequiredPropertyException;
 import com.github.error418.opennms.client.parameter.ParameterCollection;
 import com.github.error418.opennms.client.transfer.Event;
 import com.github.error418.opennms.client.transfer.Log;
@@ -63,13 +64,35 @@ public class OpenNmsEventBuilder {
 	 * Creates a new {@link OpenNmsEventBuilder} for easier and prettier
 	 * chaining.
 	 * <p>
+	 * 	Sets default values for time (current time) and Severity ( {@link Severity#INDETERMINATE}}
+	 * </p>
+	 * 
+	 * <p>
 	 * If you do not prefer chaining you can also use the Default Constructor.
 	 * </p>
 	 * 
+	 * @see #OpenNmsEventBuilder()
 	 * @return new {@link OpenNmsEventBuilder} instance
 	 */
 	public static OpenNmsEventBuilder create() {
 		return new OpenNmsEventBuilder();
+	}
+
+	/**
+	 * Constructs a new {@link OpenNmsEventBuilder} instance.
+	 * 
+	 * <p>
+	 * 	Sets default values for time (current time) and Severity ( {@link Severity#INDETERMINATE}}
+	 * </p>
+	 */
+	public OpenNmsEventBuilder() {
+		this.event = new Event();
+		
+		// set event default values for required fields
+		this.event.setTime(new Date());
+		this.event.setSeverity(Severity.INDETERMINATE);
+		
+		this.model = new Log(event);
 	}
 
 	/**
@@ -116,19 +139,29 @@ public class OpenNmsEventBuilder {
 	 *            port of the OpenNMS server event handling interface
 	 * 
 	 * @throws OpenNmsEventException
-	 *             on message building exceptions
+	 *             on message building exceptions, e.g. missing required event properties
 	 * @throws IOException
 	 *             on socket related exceptions
 	 * @throws UnknownHostException
 	 *             on network/addressing errors
 	 */
 	public void send(InetAddress onmsAddress, int port) throws OpenNmsEventException, IOException {
+		// check if required fields have values and throw exceptions, if this is the not the case
 		if (this.event.getUei() == null) {
-			throw new OpenNmsEventException("An event needs to have an UEI specified.");
+			throw new RequiredPropertyException("UEI");
+		}
+		
+		if (this.event.getSource() == null) {
+			throw new RequiredPropertyException("source");
+		}
+		
+		if (this.event.getTime() == null) {
+			throw new RequiredPropertyException("time");
 		}
 
+		// send event preparation
 		Socket socket = null;
-
+		
 		try {
 			String data = getXmlString();
 			logger.debug("open socket to {}:{}", onmsAddress.getHostAddress(), port);
@@ -155,14 +188,6 @@ public class OpenNmsEventBuilder {
 	}
 
 	/**
-	 * Constructs a new {@link OpenNmsEventBuilder} instance.
-	 */
-	public OpenNmsEventBuilder() {
-		this.event = new Event();
-		this.model = new Log(event);
-	}
-
-	/**
 	 * This Constructor is used for testing purposes.
 	 * 
 	 * @param model
@@ -174,6 +199,10 @@ public class OpenNmsEventBuilder {
 
 	/**
 	 * Sets the OpenNMS Unique Event Identifier.
+	 * <p>
+	 * This property is <b>required</b>
+	 * </p>
+	 * 
 	 * <p>
 	 * <b>OpenNMS Documentation</b>
 	 * </p>
@@ -208,6 +237,9 @@ public class OpenNmsEventBuilder {
 
 	/**
 	 * Sets the source of the event (what process).
+	 * <p>
+	 * This property is <b>required</b>
+	 * </p>
 	 * 
 	 * @param source
 	 *            The source of the event (what process).
@@ -232,6 +264,9 @@ public class OpenNmsEventBuilder {
 
 	/**
 	 * Sets the time of the event.
+	 * <p>
+	 * This property is <b>required</b>
+	 * </p>
 	 * 
 	 * @param time
 	 *            the time of the event

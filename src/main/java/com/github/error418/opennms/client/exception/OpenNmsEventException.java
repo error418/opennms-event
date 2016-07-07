@@ -1,5 +1,9 @@
 package com.github.error418.opennms.client.exception;
 
+/**
+ * General OpenNMS Event exception
+ * 
+ */
 public class OpenNmsEventException extends Exception {
 	private static final long serialVersionUID = 1L;
 
