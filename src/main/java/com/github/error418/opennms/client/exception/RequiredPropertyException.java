@@ -14,6 +14,11 @@ public class RequiredPropertyException extends OpenNmsEventException {
 		this.propertyName = propertyName;
 	}
 	
+	/**
+	 * Returns the property name of the missing field
+	 * 
+	 * @return property name of the missing field
+	 */
 	public String getPropertyName() {
 		return propertyName;
 	}
