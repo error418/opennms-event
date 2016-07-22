@@ -1,10 +1,8 @@
 package com.github.error418.opennms.client;
 
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.net.InetAddress;
-import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.LinkedList;
@@ -17,6 +15,12 @@ import javax.xml.bind.Marshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.error418.opennms.client.configuration.Configuration;
+import com.github.error418.opennms.client.connection.Connector;
+import com.github.error418.opennms.client.connection.ConnectorException;
+import com.github.error418.opennms.client.connection.OnmsConnectionType;
+import com.github.error418.opennms.client.connection.TcpConnector;
+import com.github.error418.opennms.client.connection.UdpConnector;
 import com.github.error418.opennms.client.exception.OpenNmsEventException;
 import com.github.error418.opennms.client.exception.RequiredPropertyException;
 import com.github.error418.opennms.client.parameter.ParameterCollection;
@@ -51,7 +55,7 @@ public class OpenNmsEventBuilder {
 
 	private static final Logger logger = LoggerFactory.getLogger(OpenNmsEventBuilder.class);
 	private static final Class<?>[] BOUND_CLASSES = new Class<?>[] { Log.class, Event.class, Parameter.class, ParameterValue.class };
-
+	
 	/**
 	 * The OpenNMS standard port: {@value #ONMS_STANDARD_PORT}
 	 */
@@ -122,7 +126,7 @@ public class OpenNmsEventBuilder {
 	 * @throws UnknownHostException
 	 *             on network/addressing errors
 	 */
-	public void send(InetAddress onmsAddress) throws OpenNmsEventException, IOException {
+	public void send(InetAddress onmsAddress) throws OpenNmsEventException, ConnectorException {
 		this.send(onmsAddress, ONMS_STANDARD_PORT);
 	}
 
@@ -137,12 +141,12 @@ public class OpenNmsEventBuilder {
 	 * 
 	 * @throws OpenNmsEventException
 	 *             on message building exceptions, e.g. missing required event properties
-	 * @throws IOException
-	 *             on socket related exceptions
+	 * @throws ConnectorException
+	 *             on connector related exceptions
 	 * @throws UnknownHostException
 	 *             on network/addressing errors
 	 */
-	public void send(InetAddress onmsAddress, int port) throws OpenNmsEventException, IOException {
+	public void send(InetAddress onmsAddress, int port) throws OpenNmsEventException, ConnectorException {
 		// check if required fields have values and throw exceptions, if this is the not the case
 		if (this.event.getUei() == null) {
 			throw new RequiredPropertyException("UEI");
@@ -156,34 +160,26 @@ public class OpenNmsEventBuilder {
 			throw new RequiredPropertyException("time");
 		}
 
-		// send event preparation
-		Socket socket = null;
-		
+		OnmsConnectionType connectionType = Configuration.instance().getConnectionType();
 		try {
-			String data = getXmlString();
-			logger.debug("open socket to {}:{}", onmsAddress.getHostAddress(), port);
-			socket = new Socket(onmsAddress, port);
-			OutputStreamWriter out = new OutputStreamWriter(socket.getOutputStream(), "UTF-8");
-			out.write(data, 0, data.length());
-			out.flush();
-		} catch (IOException e) {
-			logger.error("Could not create socket", e);
+			Connector connector = null;
+			switch(connectionType) {
+				case TCP: connector = new TcpConnector(onmsAddress, port);
+									break;
+				case UDP: connector = new UdpConnector(onmsAddress, port);
+									break;
+			}
+			
+			connector.send(getXmlString());
+		} catch (ConnectorException e) {
+			logger.error("could not send event.", e);
 			throw e;
 		} catch (JAXBException e) {
-			logger.error("Exception while creating event xml data", e);
-			throw new OpenNmsEventException("Exception while creating event xml data", e);
-		} finally {
-			try {
-				if (socket != null) {
-					socket.close();
-				}
-			} catch (IOException e) {
-				logger.error("Exception while closing socket", e);
-				throw e;
-			}
+			logger.error("failed building eventd message", e);
+			throw new OpenNmsEventException("could not build eventd message", e);
 		}
 	}
-
+	
 	/**
 	 * This Constructor is used for testing purposes.
 	 * 
