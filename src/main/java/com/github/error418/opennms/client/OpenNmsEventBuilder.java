@@ -63,9 +63,6 @@ public class OpenNmsEventBuilder {
 	/**
 	 * Creates a new {@link OpenNmsEventBuilder} for easier and prettier
 	 * chaining.
-	 * <p>
-	 * 	Sets default values for time (current time) and Severity ( {@link Severity#INDETERMINATE}}
-	 * </p>
 	 * 
 	 * <p>
 	 * If you do not prefer chaining you can also use the Default Constructor.
