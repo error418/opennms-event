@@ -114,9 +114,11 @@ Some repeating values can be set in a seperate configuration file, i.e. server a
 Just place a file named `onms-event.properties` in the classpath and set the values inside.
 For example:
 
-	onmsclient.connection.type = UDP
-	onmsclient.connection.address = 192.168.0.1
-	onmsclient.connection.port = 5817
+```properties
+onmsclient.connection.type = UDP
+onmsclient.connection.address = 192.168.0.1
+onmsclient.connection.port = 5817
+```
 	
 By using a configuration file you are able to use the parameterless `send()` method signature.
 	
