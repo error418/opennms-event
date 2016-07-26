@@ -126,4 +126,8 @@ Can have the values `UDP` or `TCP`.
 
 ### onmsclient.connection.address
 
-Configures the server address to use.
+Configures the OpenNMS server address to use.
+
+### onmsclient.connection.port
+
+Configures the OpenNMS server port to use.
