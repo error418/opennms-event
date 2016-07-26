@@ -115,11 +115,6 @@ public class OpenNmsEventBuilder {
 	 * Sends the current state of the Event to the configured OpenNMS Server in the property file loaded
 	 * by the {@link Configuration} instance. 
 	 * 
-	 * <p>
-	 * 	The property value of {@link Configuration#KEY_SERVER_ADDRESS} in the property file located
-	 *  in {@value Configuration#ONMS_CLIENT_PROPERTY_FILE} is used as server address. 
-	 * </p>
-	 * 
 	 * @see Configuration
 	 * 
 	 * @throws OpenNmsEventException
@@ -130,12 +125,15 @@ public class OpenNmsEventBuilder {
 	 *             on network/addressing errors
 	 */
 	public void send() throws OpenNmsEventException, ConnectorException, UnknownHostException {
-		this.send(InetAddress.getByName(Configuration.instance().getOnmsServerAddress()));
+		OnmsConnectionType connectionType = Configuration.instance().getConnectionType();
+		int port = Configuration.instance().getOnmsPort();
+		
+		this.send(InetAddress.getByName(Configuration.instance().getOnmsServerAddress()), port, connectionType);
 	}
 	
 	/**
 	 * Sends the current state of the Event to the given OpenNMS Server using
-	 * the default port {@value #ONMS_STANDARD_PORT}.
+	 * the default port {@value #ONMS_STANDARD_PORT} via the TCP protocol.
 	 * 
 	 * @param onmsAddress
 	 *            address of the OpenNMS server
@@ -148,7 +146,7 @@ public class OpenNmsEventBuilder {
 	 *             on network/addressing errors
 	 */
 	public void send(InetAddress onmsAddress) throws OpenNmsEventException, ConnectorException {
-		this.send(onmsAddress, ONMS_STANDARD_PORT);
+		this.send(onmsAddress, ONMS_STANDARD_PORT, OnmsConnectionType.TCP);
 	}
 
 	/**
@@ -167,7 +165,7 @@ public class OpenNmsEventBuilder {
 	 * @throws UnknownHostException
 	 *             on network/addressing errors
 	 */
-	public void send(InetAddress onmsAddress, int port) throws OpenNmsEventException, ConnectorException {
+	public void send(InetAddress onmsAddress, int port, OnmsConnectionType connectionType) throws OpenNmsEventException, ConnectorException {
 		// check if required fields have values and throw exceptions, if this is the not the case
 		if (this.event.getUei() == null) {
 			throw new RequiredPropertyException("UEI");
@@ -181,7 +179,6 @@ public class OpenNmsEventBuilder {
 			throw new RequiredPropertyException("time");
 		}
 
-		OnmsConnectionType connectionType = Configuration.instance().getConnectionType();
 		try {
 			Connector connector = null;
 			switch(connectionType) {

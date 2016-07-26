@@ -106,3 +106,24 @@ OpenNmsEventBuilder.create()
 			.setFirstParameter("1")
 	);
 ```
+
+## Configuration
+
+Some repeating values can be set in a seperate configuration file, i.e. server address or the connection type.
+
+Just place a file named `onms-event.properties` in the classpath and set the values inside.
+For example:
+
+	onmsclient.connection.type = UDP
+	onmsclient.connection.address = 192.168.0.1
+	onmsclient.connection.port = 5817
+	
+By using a configuration file you are able to use the parameterless `send()` method signature.
+	
+### onmsclient.connection.type
+
+Can have the values `UDP` or `TCP`.
+
+### onmsclient.connection.address
+
+Configures the server address to use.
