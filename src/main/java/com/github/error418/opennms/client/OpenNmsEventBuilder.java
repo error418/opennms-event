@@ -1,6 +1,5 @@
 package com.github.error418.opennms.client;
 
-import java.io.IOException;
 import java.io.StringWriter;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -113,6 +112,28 @@ public class OpenNmsEventBuilder {
 	}
 
 	/**
+	 * Sends the current state of the Event to the configured OpenNMS Server in the property file loaded
+	 * by the {@link Configuration} instance. 
+	 * 
+	 * <p>
+	 * 	The property value of {@link Configuration#KEY_SERVER_ADDRESS} in the property file located
+	 *  in {@value Configuration#ONMS_CLIENT_PROPERTY_FILE} is used as server address. 
+	 * </p>
+	 * 
+	 * @see Configuration
+	 * 
+	 * @throws OpenNmsEventException
+	 *             on message building exceptions
+	 * @throws ConnectorException
+	 *             on socket related exceptions
+	 * @throws UnknownHostException
+	 *             on network/addressing errors
+	 */
+	public void send() throws OpenNmsEventException, ConnectorException, UnknownHostException {
+		this.send(InetAddress.getByName(Configuration.instance().getOnmsServerAddress()));
+	}
+	
+	/**
 	 * Sends the current state of the Event to the given OpenNMS Server using
 	 * the default port {@value #ONMS_STANDARD_PORT}.
 	 * 
@@ -121,7 +142,7 @@ public class OpenNmsEventBuilder {
 	 * 
 	 * @throws OpenNmsEventException
 	 *             on message building exceptions
-	 * @throws IOException
+	 * @throws ConnectorException
 	 *             on socket related exceptions
 	 * @throws UnknownHostException
 	 *             on network/addressing errors

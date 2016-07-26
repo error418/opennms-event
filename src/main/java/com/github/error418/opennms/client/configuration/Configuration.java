@@ -11,10 +11,10 @@ import com.github.error418.opennms.client.connection.OnmsConnectionType;
 
 public class Configuration {
 	private static final Logger logger = LoggerFactory.getLogger(Configuration.class);
-	private static final String ONMS_CLIENT_PROPERTY_FILE = "/onms-event.properties";
-
-	static final String KEY_CONNECTION_TYPE = "onmsclient.connection.type";
-	static final String KEY_SERVER_ADDRESS = "onmsclient.connection.address";
+	
+	public static final String ONMS_CLIENT_PROPERTY_FILE = "/onms-event.properties";
+	public static final String KEY_CONNECTION_TYPE = "onmsclient.connection.type";
+	public static final String KEY_SERVER_ADDRESS = "onmsclient.connection.address";
 	
 	static final OnmsConnectionType DEFAULT_CONNECTION_TYPE = OnmsConnectionType.TCP;
 
