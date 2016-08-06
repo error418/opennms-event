@@ -14,7 +14,6 @@ import javax.xml.bind.Marshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.error418.opennms.client.configuration.Configuration;
 import com.github.error418.opennms.client.connection.Connector;
 import com.github.error418.opennms.client.connection.ConnectorException;
 import com.github.error418.opennms.client.connection.OnmsConnectionType;
@@ -109,26 +108,6 @@ public class OpenNmsEventBuilder {
 		m.marshal(this.model, writer);
 
 		return writer.getBuffer().toString();
-	}
-
-	/**
-	 * Sends the current state of the Event to the configured OpenNMS Server in the property file loaded
-	 * by the {@link Configuration} instance. 
-	 * 
-	 * @see Configuration
-	 * 
-	 * @throws OpenNmsEventException
-	 *             on message building exceptions
-	 * @throws ConnectorException
-	 *             on socket related exceptions
-	 * @throws UnknownHostException
-	 *             on network/addressing errors
-	 */
-	public void send() throws OpenNmsEventException, ConnectorException, UnknownHostException {
-		OnmsConnectionType connectionType = Configuration.instance().getConnectionType();
-		int port = Configuration.instance().getOnmsPort();
-		
-		this.send(InetAddress.getByName(Configuration.instance().getOnmsServerAddress()), port, connectionType);
 	}
 	
 	/**
