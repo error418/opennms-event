@@ -106,3 +106,9 @@ OpenNmsEventBuilder.create()
 			.setFirstParameter("1")
 	);
 ```
+
+## Responses
+
+Keep in mind that the OpenNMS `eventd` service does not return responses on success or error. You need to ensure your transmitted event data complies to the event schema you have configured on your OpenNMS server.
+
+If you are running in any issues (e.g. events are not created) take a look into the `eventd` service log file.

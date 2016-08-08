@@ -4,14 +4,60 @@
 	<groupId>com.github.error418.opennms</groupId>
 	<artifactId>event-client</artifactId>
 	<version>0.2.0</version>
-	
+
+
+	<name>OpenNMS EventD Client</name>
 	<description>A Java OpenNMS client for creating events via ONMS eventd daemon.</description>
+	<url>https://github.com/error418/opennms-event</url>
+
+	<developers>
+		<developer>
+			<id>error418</id>
+			<name>Michael Gerbig</name>
+		</developer>
+	</developers>
+
+	<scm>
+		<url>https://github.com/error418/opennms-event.git</url>
+	</scm>
+
+	<licenses>
+		<license>
+			<name>MIT</name>
+			<distribution>repo</distribution>
+			<url>https://opensource.org/licenses/MIT</url>
+		</license>
+	</licenses>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
-	
+
+	<profiles>
+		<profile>
+			<id>sign</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.5</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
 	<dependencies>
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
@@ -24,7 +70,6 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.21</version>
 		</dependency>
-
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -118,4 +163,11 @@
 			</plugin>
 		</plugins>
 	</reporting>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
 </project>
