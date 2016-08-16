@@ -112,3 +112,15 @@ OpenNmsEventBuilder.create()
 Keep in mind that the OpenNMS `eventd` service does not return responses on success or error. You need to ensure your transmitted event data complies to the event schema you have configured on your OpenNMS server.
 
 If you are running in any issues (e.g. events are not created) take a look into the `eventd` service log file.
+
+## Get it
+
+Using Maven
+
+```xml
+<dependency>
+  <groupId>com.github.error418.opennms</groupId>
+  <artifactId>event-client</artifactId>
+  <version>0.2.0</version>
+</dependency>
+```
