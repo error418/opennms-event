@@ -1,4 +1,4 @@
-# OpenNMS Event Client for Java [![Build Status](https://travis-ci.org/error418/opennms-event.svg?branch=master)](https://travis-ci.org/error418/opennms-event)
+# OpenNMS Event Client for Java [![Build Status](https://travis-ci.org/error418/opennms-event.svg?branch=master)](https://travis-ci.org/error418/opennms-event) [![Code Climate](https://codeclimate.com/github/error418/opennms-event/badges/gpa.svg)](https://codeclimate.com/github/error418/opennms-event)
 
 A Java OpenNMS client for creating events via ONMS *eventd* daemon.
 
