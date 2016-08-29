@@ -8,7 +8,7 @@ A Java OpenNMS client for creating events via ONMS *eventd* daemon.
 
 ## Notice
 
-[A REST interface](http://docs.opennms.org/opennms/releases/18.0.0/guide-development/guide-development.html#_events) for creating events exists out-of-the-box since OpenNMS 18.0.0. You may want to use the REST interface in favor of the eventd daemon, if you are running 18.0.0 or a later version of OpenNMS.
+[A REST interface](http://docs.opennms.org/opennms/releases/17.1.1/guide-development/guide-development.html#_events) for creating events exists out-of-the-box since OpenNMS 17.1.1. You may want to use the REST interface in favor of the eventd daemon, if you are running 17.1.1 or a later version of OpenNMS.
 
 ## Functional Description
 
