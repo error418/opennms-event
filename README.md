@@ -13,7 +13,7 @@ JAX-B to generate the XML message.
 
 ### REST interfaces
 
-A REST interface for creating events exists out-of-the-box since OpenNMS 18.0.0. You may want to use this interface in favor of the eventd daemon, if you are running this or a later version of OpenNMS.
+A REST interface for creating events exists out-of-the-box since OpenNMS 18.0.0. You may want to use this interface in favor of the eventd daemon, if you are running 18.0.0 or a later version of OpenNMS.
 
 ### Usage
 
