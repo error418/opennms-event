@@ -11,6 +11,9 @@ A Java OpenNMS client for creating events via ONMS *eventd* daemon.
 This library is intended to support the developer when sending ONMS Events in Java. The library utilizes
 JAX-B to generate the XML message.
 
+### REST interfaces
+
+A REST interface for creating events exists out-of-the-box since OpenNMS 18.0.0. You may want to use this interface in favor of the eventd daemon
 
 ### Usage
 
