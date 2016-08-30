@@ -1,0 +1,12 @@
+engines:
+  pmd:
+    enabled: true
+    channel: "beta"
+    exclude_fingerprints:
+    - ad97729fa57d583c9c9bb05aefab9bae
+    - 61021278baac0f109eb8fae859a4706a
+    - c58c34b81dc7ad40fb40c56e8e9ea218
+
+ratings:
+  paths:
+  - "src/main/java/**/*.java"

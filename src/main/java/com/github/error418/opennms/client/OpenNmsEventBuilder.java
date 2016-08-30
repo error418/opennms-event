@@ -121,8 +121,6 @@ public class OpenNmsEventBuilder {
 	 *             on message building exceptions
 	 * @throws ConnectorException
 	 *             on socket related exceptions
-	 * @throws UnknownHostException
-	 *             on network/addressing errors
 	 */
 	public void send(InetAddress onmsAddress) throws OpenNmsEventException, ConnectorException {
 		this.send(onmsAddress, ONMS_STANDARD_PORT, OnmsConnectionType.TCP);
@@ -136,13 +134,13 @@ public class OpenNmsEventBuilder {
 	 *            address of the OpenNMS server
 	 * @param port
 	 *            port of the OpenNMS server event handling interface
+	 *            
+	 * @param connectionType the connection type to use for sending the event
 	 * 
 	 * @throws OpenNmsEventException
 	 *             on message building exceptions, e.g. missing required event properties
 	 * @throws ConnectorException
 	 *             on connector related exceptions
-	 * @throws UnknownHostException
-	 *             on network/addressing errors
 	 */
 	public void send(InetAddress onmsAddress, int port, OnmsConnectionType connectionType) throws OpenNmsEventException, ConnectorException {
 		// check if required fields have values and throw exceptions, if this is the not the case

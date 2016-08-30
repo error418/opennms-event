@@ -1,14 +1,19 @@
 # OpenNMS Event Client for Java
 
-[![Build Status](https://travis-ci.org/error418/opennms-event.svg?branch=master)](https://travis-ci.org/error418/opennms-event)
-
 A Java OpenNMS client for creating events via ONMS *eventd* daemon.
+
+[![Build Status](https://travis-ci.org/error418/opennms-event.svg?branch=master)](https://travis-ci.org/error418/opennms-event)
+[![Code Climate](https://codeclimate.com/github/error418/opennms-event/badges/gpa.svg)](https://codeclimate.com/github/error418/opennms-event)
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.error418.opennms/event-client.svg?maxAge=2592000)](http://search.maven.org/#search%7Cga%7C1%7Ccom.github.error418.opennms.event-client)
+
+## Notice
+
+[A REST interface](http://docs.opennms.org/opennms/releases/17.1.1/guide-development/guide-development.html#_events) for creating events exists out-of-the-box since OpenNMS 17.1.1. You may want to use the REST interface in favor of the eventd daemon, if you are running 17.1.1 or a later version of OpenNMS.
 
 ## Functional Description
 
 This library is intended to support the developer when sending ONMS Events in Java. The library utilizes
 JAX-B to generate the XML message.
-
 
 ### Usage
 
@@ -112,3 +117,15 @@ OpenNmsEventBuilder.create()
 Keep in mind that the OpenNMS `eventd` service does not return responses on success or error. You need to ensure your transmitted event data complies to the event schema you have configured on your OpenNMS server.
 
 If you are running in any issues (e.g. events are not created) take a look into the `eventd` service log file.
+
+## Get it
+
+Using Maven
+
+```xml
+<dependency>
+  <groupId>com.github.error418.opennms</groupId>
+  <artifactId>event-client</artifactId>
+  <version>0.2.0</version>
+</dependency>
+```
