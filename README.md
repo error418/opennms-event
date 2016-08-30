@@ -126,6 +126,6 @@ Using Maven
 <dependency>
   <groupId>com.github.error418.opennms</groupId>
   <artifactId>event-client</artifactId>
-  <version>0.2.0</version>
+  <version>0.2.1</version>
 </dependency>
 ```
