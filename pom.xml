@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.error418.opennms</groupId>
 	<artifactId>event-client</artifactId>
-	<version>0.2.0</version>
+	<version>0.2.1</version>
 
 
 	<name>OpenNMS EventD Client</name>
