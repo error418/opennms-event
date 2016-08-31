@@ -4,7 +4,7 @@ A Java OpenNMS client for creating events via ONMS *eventd* daemon.
 
 [![Build Status](https://travis-ci.org/error418/opennms-event.svg?branch=master)](https://travis-ci.org/error418/opennms-event)
 [![Code Climate](https://codeclimate.com/github/error418/opennms-event/badges/gpa.svg)](https://codeclimate.com/github/error418/opennms-event)
-[![Maven Central](https://img.shields.io/maven-central/v/com.github.error418.opennms/event-client.svg?maxAge=2592000)](http://search.maven.org/#search%7Cga%7C1%7Ccom.github.error418.opennms.event-client)
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.error418.opennms/event-client.svg?maxAge=2502000)](http://search.maven.org/#search%7Cga%7C1%7Ccom.github.error418.opennms.event-client)
 
 ## Notice
 
